@@ -5,14 +5,18 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "prebuild": "node scripts/sanitize-lessons-manifest.mjs && node scripts/qa-node-gate.mjs && node scripts/qa-lesson-blueprint.mjs",
+    "prebuild": "node scripts/sanitize-lessons-manifest.mjs && node scripts/qa-node-gate.mjs && node scripts/qa-lesson-blueprint.mjs && node scripts/qa-content.mjs",
     "build": "tsc -b && vite build",
     "sanitize:manifest": "node scripts/sanitize-lessons-manifest.mjs",
     "split:manifest": "node scripts/split-manifest.mjs",
     "audit:manifest": "node scripts/audit-lessons-manifest.mjs",
     "qa:node-gate": "node scripts/qa-node-gate.mjs",
     "qa:lesson-blueprint": "node scripts/qa-lesson-blueprint.mjs",
-    "qa:all": "node scripts/sanitize-lessons-manifest.mjs && node scripts/audit-lessons-manifest.mjs && node scripts/qa-node-gate.mjs && node scripts/qa-lesson-blueprint.mjs",
+    "qa:batch": "node scripts/qa-content-batch.mjs",
+    "qa:tests": "vitest run",
+    "qa:all": "node scripts/sanitize-lessons-manifest.mjs && node scripts/audit-lessons-manifest.mjs && node scripts/qa-node-gate.mjs && node scripts/qa-lesson-blueprint.mjs && node scripts/qa-content.mjs && vitest run",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "answerkey:apply": "node scripts/apply-answer-key-map.mjs",
     "lint": "eslint .",
     "preview": "vite preview"
@@ -39,6 +43,7 @@
     "tailwindcss": "^3.4.19",
     "typescript": "^5.6.2",
     "typescript-eslint": "^8.0.0",
-    "vite": "^5.0.12"
+    "vite": "^5.0.12",
+    "vitest": "^2.1.9"
   }
 }

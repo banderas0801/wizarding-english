@@ -5,8 +5,9 @@ import { useGameStore } from '../store/useGameStore';
 import type { Exercise } from '../types/curriculum';
 import { hashSeed, seededShuffle } from '../lib/seededRandom';
 import { useT } from '../lib/i18n';
+import { trackEvent } from '../services/telemetry';
+import { prepareExercises, SESSION_SIZE } from '../lib/stage/prepareExercises';
 
-const SESSION_SIZE = 10;
 const MAX_HEARTS = 3;
 
 type GameMode = 'mcq' | 'duel' | 'fill_blank' | 'short_answer' | 'matching';
@@ -17,27 +18,14 @@ function fixText(s: string): string {
 }
 
 function normalizeAnswer(s: string): string {
-  return s.toLowerCase().trim().replace(/[.,!?;:]/g, '');
-}
-
-function prepareExercises(all: Exercise[], seed: number): Exercise[] {
-  const seen = new Set<string>();
-  const filtered = all
-    .filter((e) => {
-      if (!e.answer) return false;
-      if (e.type === 'fill_blank' || e.type === 'short_answer') return true;
-      if (e.type === 'multiple_choice') return Boolean(e.options && e.options.length >= 3);
-      if (e.type === 'matching') return Boolean(e.pairs && e.pairs.length >= 3 && e.pairs.length <= 6);
-      return false;
-    })
-    .filter((e) => {
-      const key = `${e.type}:${fixText(e.question).slice(0, 60)}`;
-      if (seen.has(key)) return false;
-      seen.add(key);
-      return true;
-    });
-
-  return seededShuffle(filtered, seed).slice(0, SESSION_SIZE);
+  return String(s ?? '')
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[’‘`]/g, "'")
+    .replace(/[“”]/g, '"')
+    .toLowerCase()
+    .trim()
+    .replace(/[.,!?;:]/g, '');
 }
 
 function getStars(correct: number): 0 | 1 | 2 | 3 {
@@ -208,7 +196,19 @@ function ShortAnswer({ ex, onContinue }: { ex: Exercise; onContinue: (correct: b
   );
 }
 
-function Matching({ ex, seedBase, exerciseIndex, onContinue }: { ex: Exercise; seedBase: number; exerciseIndex: number; onContinue: (correct: boolean) => void }) {
+function Matching({
+  ex,
+  seedBase,
+  exerciseIndex,
+  onContinue,
+  onSkip,
+}: {
+  ex: Exercise;
+  seedBase: number;
+  exerciseIndex: number;
+  onContinue: (correct: boolean) => void;
+  onSkip: () => void;
+}) {
   const t = useT();
   const pairs = (ex.pairs ?? []).slice(0, 6);
   const rightItems = useMemo(() => seededShuffle(pairs.map((p) => p.right), hashSeed(`${seedBase}:match:${exerciseIndex}`)), [pairs, seedBase, exerciseIndex]);
@@ -218,7 +218,7 @@ function Matching({ ex, seedBase, exerciseIndex, onContinue }: { ex: Exercise; s
   const [matched, setMatched] = useState<Record<string, string>>({});
   const [failed, setFailed] = useState<string | null>(null);
   const [firstTryCorrect, setFirstTryCorrect] = useState(0);
-  const [attemptedLeft, setAttemptedLeft] = useState<Set<string>>(new Set());
+  const attemptedLeftRef = useRef<Set<string>>(new Set());
 
   const done = Object.keys(matched).length === pairs.length;
 
@@ -228,23 +228,23 @@ function Matching({ ex, seedBase, exerciseIndex, onContinue }: { ex: Exercise; s
 
     if (valid) {
       setMatched((prev) => ({ ...prev, [selectedLeft]: selectedRight }));
-      if (!attemptedLeft.has(selectedLeft)) {
+      if (!attemptedLeftRef.current.has(selectedLeft)) {
         setFirstTryCorrect((v) => v + 1);
       }
-      setAttemptedLeft((prev) => new Set(prev).add(selectedLeft));
+      attemptedLeftRef.current.add(selectedLeft);
       setSelectedLeft(null);
       setSelectedRight(null);
       return;
     }
 
     setFailed(`${selectedLeft}|${selectedRight}`);
-    setAttemptedLeft((prev) => new Set(prev).add(selectedLeft));
+    attemptedLeftRef.current.add(selectedLeft);
     setTimeout(() => {
       setFailed(null);
       setSelectedLeft(null);
       setSelectedRight(null);
     }, 400);
-  }, [selectedLeft, selectedRight, pairs, attemptedLeft]);
+  }, [selectedLeft, selectedRight, pairs]);
 
   const scoreRatio = pairs.length ? firstTryCorrect / pairs.length : 0;
 
@@ -307,6 +307,13 @@ function Matching({ ex, seedBase, exerciseIndex, onContinue }: { ex: Exercise; s
           <button onClick={() => onContinue(scoreRatio >= 0.7)} className="px-6 py-2 rounded-full font-bold text-sm bg-green-600 text-white">{t('next')}</button>
         </div>
       )}
+      {!done && (
+        <div className="pt-1">
+          <button type="button" onClick={onSkip} className="text-sm text-on-surface-variant underline">
+            {t('skip')}
+          </button>
+        </div>
+      )}
     </div>
   );
 }
@@ -338,11 +345,13 @@ export default function StageSession() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const unitId = searchParams.get('unitId');
+  const nodeNumber = Number(searchParams.get('node') ?? '1') || 1;
   const { curriculum, loading } = useCurriculum();
   const { addXp, addGold, recordUnitCompletion, completedUnits, language, setLanguage } = useGameStore();
 
-  const attemptCount = unitId ? (completedUnits[unitId]?.attempts ?? 0) + 1 : 1;
-  const sessionSeed = hashSeed(`${unitId ?? 'unknown'}:${attemptCount}`);
+  const nodeProgressId = unitId ? `${unitId}::node-${nodeNumber}` : null;
+  const attemptCount = nodeProgressId ? (completedUnits[nodeProgressId]?.attempts ?? 0) + 1 : 1;
+  const sessionSeed = hashSeed(`${unitId ?? 'unknown'}:${nodeNumber}:${attemptCount}`);
 
   const unitData = useMemo(() => {
     if (!curriculum || !unitId) return null;
@@ -366,6 +375,21 @@ export default function StageSession() {
   const [correct, setCorrect] = useState(0);
   const [hearts, setHearts] = useState(MAX_HEARTS);
   const rewardedRef = useRef(false);
+  const ex = exercises[index];
+  const mode = useMemo<GameMode>(() => {
+    if (!ex) return 'mcq';
+    if (ex.type === 'fill_blank') return 'fill_blank';
+    if (ex.type === 'short_answer') return 'short_answer';
+    if (ex.type === 'true_false') return 'mcq';
+    if (ex.type === 'pronunciation' || ex.type === 'listening' || ex.type === 'writing') return 'short_answer';
+    if (ex.type === 'matching' && ex.pairs && ex.pairs.length >= 3) return 'matching';
+    if (ex.type === 'multiple_choice') {
+      const planned = MODE_SEQUENCE[index % MODE_SEQUENCE.length];
+      if (planned === 'duel' && (ex.options?.length ?? 0) >= 3) return 'duel';
+      return 'mcq';
+    }
+    return 'mcq';
+  }, [ex, index]);
 
   useEffect(() => {
     if (phase === 'done' && !rewardedRef.current) {
@@ -376,16 +400,29 @@ export default function StageSession() {
       addGold(correct * 5);
       if (unitId) {
         const pctScore = Math.round((correct / SESSION_SIZE) * 100);
+        if (nodeProgressId) {
+          recordUnitCompletion(nodeProgressId, pctScore, stars);
+        }
         recordUnitCompletion(unitId, pctScore, stars);
+        trackEvent('stage_completed', {
+          unitId,
+          nodeNumber,
+          correct,
+          total: SESSION_SIZE,
+          heartsLeft: hearts,
+          stars,
+          scorePct: pctScore,
+        });
       }
     }
-  }, [phase, correct, addXp, addGold, recordUnitCompletion, unitId]);
+  }, [phase, correct, addXp, addGold, recordUnitCompletion, unitId, hearts, nodeProgressId, nodeNumber]);
 
   const handleContinue = useCallback((wasCorrect: boolean) => {
     if (!wasCorrect) {
       const newHearts = hearts - 1;
       setHearts(newHearts);
       if (newHearts === 0) {
+        trackEvent('stage_failed', { unitId, nodeNumber, exerciseId: ex?.id ?? 'unknown', index });
         setPhase('done');
         return;
       }
@@ -398,7 +435,12 @@ export default function StageSession() {
     } else {
       setIndex((i) => i + 1);
     }
-  }, [hearts, index, exercises.length]);
+  }, [hearts, index, exercises.length, unitId, nodeNumber, ex?.id]);
+
+  const handleSkipMatching = useCallback(() => {
+    trackEvent('matching_skipped', { unitId, nodeNumber, exerciseId: ex?.id ?? 'unknown' });
+    handleContinue(false);
+  }, [unitId, nodeNumber, ex?.id, handleContinue]);
 
   const resetSession = () => {
     rewardedRef.current = false;
@@ -429,32 +471,27 @@ export default function StageSession() {
         <div className="text-6xl animate-bounce">⚡</div>
         <div>
           <h1 className="text-2xl font-black text-primary">{unitData.unit.title}</h1>
-          <p className="text-on-surface-variant text-sm mt-1">{unitData.subject.name} • {unitData.level.title}</p>
+          <p className="text-on-surface-variant text-sm mt-1">{unitData.subject.name} • {unitData.level.title} • Node {nodeNumber}</p>
         </div>
         <div className="bg-surface-container rounded-2xl p-5 w-full max-w-sm space-y-3 text-left">
           <div className="flex justify-between text-sm"><span className="text-on-surface-variant">{t('questions')}</span><span className="font-bold text-primary">{exercises.length}</span></div>
           <div className="flex justify-between text-sm"><span className="text-on-surface-variant">{t('hearts')}</span><span className="font-bold"><Hearts current={MAX_HEARTS} max={MAX_HEARTS} /></span></div>
           <div className="flex justify-between text-sm"><span className="text-on-surface-variant">{t('modes')}</span><span className="font-bold text-primary">MCQ • Duel • FillBlank • Matching • ShortAnswer</span></div>
         </div>
-        <button onClick={() => setPhase('playing')} className="bg-primary text-on-primary px-10 py-4 rounded-full font-black text-lg shadow-lg active:scale-95 transition-all w-full max-w-sm">{t('start')}</button>
+        <button
+          onClick={() => {
+            trackEvent('stage_started', { unitId, nodeNumber, attemptCount, exerciseCount: exercises.length });
+            setPhase('playing');
+          }}
+          className="bg-primary text-on-primary px-10 py-4 rounded-full font-black text-lg shadow-lg active:scale-95 transition-all w-full max-w-sm"
+        >
+          {t('start')}
+        </button>
       </div>
     );
   }
 
   if (phase === 'done') return <ResultScreen correct={correct} hearts={hearts} onRetry={resetSession} onMap={() => navigate('/')} />;
-
-  const ex = exercises[index];
-  const mode = useMemo<GameMode>(() => {
-    if (ex.type === 'fill_blank') return 'fill_blank';
-    if (ex.type === 'short_answer') return 'short_answer';
-    if (ex.type === 'matching' && ex.pairs && ex.pairs.length >= 3) return 'matching';
-    if (ex.type === 'multiple_choice') {
-      const planned = MODE_SEQUENCE[index % MODE_SEQUENCE.length];
-      if (planned === 'duel' && (ex.options?.length ?? 0) >= 3) return 'duel';
-      return 'mcq';
-    }
-    return 'mcq';
-  }, [ex, index]);
 
   const progress = index / exercises.length;
 
@@ -475,7 +512,16 @@ export default function StageSession() {
           {mode === 'duel' && <Duel key={index} ex={ex} seedBase={sessionSeed} onContinue={handleContinue} />}
           {mode === 'fill_blank' && <FillBlank key={index} ex={ex} onContinue={handleContinue} />}
           {mode === 'short_answer' && <ShortAnswer key={index} ex={ex} onContinue={handleContinue} />}
-          {mode === 'matching' && <Matching key={index} ex={ex} seedBase={sessionSeed} exerciseIndex={index} onContinue={handleContinue} />}
+          {mode === 'matching' && (
+            <Matching
+              key={index}
+              ex={ex}
+              seedBase={sessionSeed}
+              exerciseIndex={index}
+              onContinue={handleContinue}
+              onSkip={handleSkipMatching}
+            />
+          )}
         </div>
       </main>
     </div>

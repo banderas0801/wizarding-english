@@ -1,14 +1,18 @@
 {
-  "generatedAt": "2026-05-18T02:08:39.343Z",
+  "generatedAt": "2026-05-18T13:21:11.990Z",
   "inputLessons": 669,
   "sanitizedLessons": 669,
   "blueprint": {
     "minChallengesPerNode": 10,
     "chapterSizeNodes": 5,
     "loopModes": [
+      "mcq",
+      "mcq",
       "duel",
-      "match",
-      "riddle"
+      "mcq",
+      "fill_blank",
+      "matching",
+      "short_answer"
     ]
   },
   "summary": {
@@ -17,7 +21,7 @@
       "chapters": 20,
       "minChallenges": 10,
       "maxChallenges": 17,
-      "modeLoop": "duel -> match -> riddle",
+      "modeLoop": "mcq -> mcq -> duel -> mcq -> fill_blank -> matching -> short_answer",
       "badChallengeNodes": 0,
       "badModeSequence": 0
     },
@@ -26,7 +30,7 @@
       "chapters": 8,
       "minChallenges": 10,
       "maxChallenges": 15,
-      "modeLoop": "duel -> match -> riddle",
+      "modeLoop": "mcq -> mcq -> duel -> mcq -> fill_blank -> matching -> short_answer",
       "badChallengeNodes": 0,
       "badModeSequence": 0
     }

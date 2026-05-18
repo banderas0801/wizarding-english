@@ -1,236 +1,229 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCurriculum } from '../contexts/CurriculumContext';
 import { useGameStore } from '../store/useGameStore';
 import { CurriculumBuilder } from '../services/CurriculumBuilder';
 
-// Map each subject to a Hogwarts location icon & color
-const SUBJECT_STYLE: Record<string, { icon: string; emoji: string; color: string }> = {
-  reading:            { icon: 'menu_book',    emoji: '📚', color: '#4a90d9' },
-  'reading comprehension': { icon: 'menu_book', emoji: '📖', color: '#4a90d9' },
-  writing:            { icon: 'edit',         emoji: '✍️', color: '#9b59b6' },
-  math:               { icon: 'calculate',    emoji: '🔢', color: '#e67e22' },
-  science:            { icon: 'science',      emoji: '🔬', color: '#27ae60' },
-  vocabulary:         { icon: 'abc',          emoji: '💬', color: '#c0392b' },
-  grammar:            { icon: 'spellcheck',   emoji: '📝', color: '#16a085' },
-  spelling:           { icon: 'text_fields',  emoji: '🔤', color: '#8e44ad' },
-  'critical thinking':{ icon: 'psychology',   emoji: '🧠', color: '#2980b9' },
-  general:            { icon: 'auto_awesome', emoji: '⭐', color: '#d4af37' },
-  geography:          { icon: 'public',       emoji: '🌍', color: '#1abc9c' },
+const SESSION_SIZE = 10;
+
+type NodeState = 'locked' | 'current' | 'completed' | 'mastered';
+
+type MapNode = {
+  unitId: string;
+  chapterId: string;
+  chapterTitle: string;
+  chapterOrder: number;
+  nodeOrder: number;
+  nodeLabel: string;
+  challengeCount: number;
+  xpReward: number;
+  prerequisiteNodeId: string | null;
 };
 
-const GRADE_NAMES = ['Năm Nhập Học', 'Năm Nhất', 'Năm Hai', 'Năm Ba', 'Năm Bốn', 'Năm Năm', 'Năm Sáu'];
-const GRADE_EMOJIS = ['🎒', '🦉', '🧙', '🔮', '🐉', '⚡', '🌟'];
+const SUBJECT_STYLE: Record<string, { emoji: string; color: string }> = {
+  reading: { emoji: '📘', color: '#4a90d9' },
+  writing: { emoji: '✍️', color: '#8e44ad' },
+  vocabulary: { emoji: '💬', color: '#c0392b' },
+  grammar: { emoji: '🪄', color: '#16a085' },
+  phonics: { emoji: '🔤', color: '#d35400' },
+  math: { emoji: '🔢', color: '#e67e22' },
+  science: { emoji: '🔬', color: '#27ae60' },
+  general: { emoji: '⭐', color: '#d4af37' },
+};
+
+function getNodeProgressKey(node: MapNode): string {
+  return `${node.unitId}::node-${node.nodeOrder}`;
+}
 
 export default function WorldMap() {
   const navigate = useNavigate();
   const { curriculum, loading } = useCurriculum();
-  const { xp, completedUnits, bestScores, isUnitUnlocked } = useGameStore();
-  const [selectedGrade, setSelectedGrade] = useState(1);
+  const { xp, bestScores } = useGameStore();
 
-  // Build flat list of nodes for the selected grade
   const nodes = useMemo(() => {
-    if (!curriculum) return [];
-    const grade = curriculum.levels.find(l => l.level === selectedGrade);
-    if (!grade) return [];
+    if (!curriculum) return [] as MapNode[];
 
-    return grade.subjects.flatMap((subject, si) =>
-      subject.units.map((unit, ui) => {
-        const exerciseCount = unit.lessons.flatMap(l => l.exercises).length;
-        return {
-          id: unit.id,
-          title: unit.title,
-          subject: subject.name,
-          subjectKey: subject.id,
-          exerciseCount,
-          xpReward: exerciseCount * 10,
-          unitIndex: si * 100 + ui,
-          prerequisiteId: curriculum
-            ? CurriculumBuilder.getPrerequisiteUnitId(curriculum, unit.id)
-            : null,
-          isFirstInGrade: curriculum
-            ? CurriculumBuilder.isFirstUnitOfGrade(curriculum, unit.id)
-            : false,
-        };
-      })
-    ).filter(n => n.exerciseCount > 0); // only nodes with real challenges
-  }, [curriculum, selectedGrade]);
+    const out: MapNode[] = [];
+    let chapterOrder = 0;
 
-  const getNodeState = useCallback((node: { id: string; isFirstInGrade: boolean; prerequisiteId: string | null }): 'locked' | 'unlocked' | 'current' | 'completed' | 'mastered' => {
-    const best = bestScores[node.id] ?? 0;
-    const completed = Boolean(completedUnits[node.id]);
-    if (best >= 90) return 'mastered';
-    if (best >= 70 || completed) return 'completed';
-    const unlocked = node.isFirstInGrade || isUnitUnlocked(node.id, node.prerequisiteId);
-    if (!unlocked) return 'locked';
-    return 'unlocked';
-  }, [bestScores, completedUnits, isUnitUnlocked]);
+    for (const level of curriculum.levels) {
+      for (const subject of level.subjects) {
+        for (const unit of subject.units) {
+          const exerciseCount = unit.lessons.flatMap((l) => l.exercises).length;
+          if (exerciseCount <= 0) continue;
 
-  const currentNodeId = useMemo(() => {
+          chapterOrder += 1;
+          const nodeCount = Math.max(1, Math.ceil(exerciseCount / SESSION_SIZE));
+          const chapterId = unit.id;
+          const chapterTitle = `${level.title} • ${subject.name}`;
+
+          for (let nodeOrder = 1; nodeOrder <= nodeCount; nodeOrder += 1) {
+            const isFirstNode = nodeOrder === 1;
+            const prerequisiteNodeId = isFirstNode
+              ? CurriculumBuilder.getPrerequisiteUnitId(curriculum, unit.id)
+              : `${unit.id}::node-${nodeOrder - 1}`;
+
+            out.push({
+              unitId: unit.id,
+              chapterId,
+              chapterTitle,
+              chapterOrder,
+              nodeOrder,
+              nodeLabel: `Node ${nodeOrder}`,
+              challengeCount: SESSION_SIZE,
+              xpReward: SESSION_SIZE * 10,
+              prerequisiteNodeId,
+            });
+          }
+        }
+      }
+    }
+
+    return out;
+  }, [curriculum]);
+
+  const chapters = useMemo(() => {
+    const byChapter = new Map<string, MapNode[]>();
     for (const node of nodes) {
-      if (getNodeState(node) === 'unlocked') return node.id;
+      if (!byChapter.has(node.chapterId)) byChapter.set(node.chapterId, []);
+      byChapter.get(node.chapterId)!.push(node);
+    }
+    return Array.from(byChapter.values());
+  }, [nodes]);
+
+  const nodeState = (node: MapNode): NodeState => {
+    const key = getNodeProgressKey(node);
+    const score = bestScores[key] ?? 0;
+    if (score >= 90) return 'mastered';
+    if (score >= 70) return 'completed';
+    if (!node.prerequisiteNodeId) return 'current';
+    const reqScore = bestScores[node.prerequisiteNodeId] ?? 0;
+    return reqScore >= 70 ? 'current' : 'locked';
+  };
+
+  const firstCurrentKey = useMemo(() => {
+    for (const node of nodes) {
+      if (nodeState(node) === 'current') return getNodeProgressKey(node);
     }
     return null;
-  }, [nodes, getNodeState]);
+  }, [nodes, bestScores]);
 
   return (
     <div
-      className="min-h-screen flex flex-col max-w-[430px] mx-auto relative overflow-x-hidden"
+      className="min-h-screen flex flex-col max-w-[430px] mx-auto relative overflow-x-hidden pb-24"
       style={{
         backgroundColor: '#fff8f7',
         backgroundImage: 'radial-gradient(#dfbfbc 0.5px, transparent 0.5px)',
         backgroundSize: '20px 20px',
       }}
     >
-      {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-surface-container-low/95 backdrop-blur border-b border-outline-variant/30 shadow-sm max-w-[430px] mx-auto">
-        <div className="flex items-center justify-between px-5 pt-11 pb-3">
+      <header className="sticky top-0 z-40 bg-surface-container-low/95 backdrop-blur border-b border-outline-variant/30 max-w-[430px] mx-auto">
+        <div className="flex items-center justify-between px-5 pt-10 pb-3">
           <div>
-            <h1 className="font-bold text-xl text-primary tracking-wide">🏰 Hogwarts</h1>
-            <p className="text-xs text-on-surface-variant">Chọn thử thách để học</p>
+            <h1 className="font-bold text-xl text-primary tracking-wide">Hogwarts Map</h1>
+            <p className="text-xs text-on-surface-variant">Follow the node path, 10 challenges per node</p>
           </div>
           <div className="flex items-center gap-2 bg-primary/10 px-3 py-1.5 rounded-full">
             <span className="text-sm">⭐</span>
             <span className="font-bold text-sm text-primary">{xp.toLocaleString()} XP</span>
           </div>
         </div>
-
-        {/* Grade tabs — horizontal scroll */}
-        <div className="flex overflow-x-auto px-4 pb-3 gap-2 no-scrollbar">
-          {(curriculum?.levels ?? []).map(level => (
-            <button
-              key={level.level}
-              onClick={() => setSelectedGrade(level.level)}
-              className={`flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all ${
-                selectedGrade === level.level
-                  ? 'bg-primary text-on-primary shadow-md'
-                  : 'bg-surface-container text-on-surface-variant hover:bg-primary/10'
-              }`}
-            >
-              <span>{GRADE_EMOJIS[level.level]}</span>
-              <span>{GRADE_NAMES[level.level]}</span>
-              <span className="opacity-70">({level.totalLessons})</span>
-            </button>
-          ))}
-        </div>
       </header>
 
-      {/* Map Content */}
-      <main className="pt-[148px] pb-28 px-5">
+      <main className="px-5 pt-4">
         {loading && (
           <div className="flex flex-col items-center justify-center py-20 gap-3">
             <span className="material-symbols-outlined text-5xl text-primary animate-pulse">auto_fix_high</span>
-            <p className="text-on-surface-variant text-sm">Đang tải bản đồ...</p>
+            <p className="text-on-surface-variant text-sm">Loading map...</p>
           </div>
         )}
 
-        {!loading && nodes.length === 0 && (
+        {!loading && chapters.length === 0 && (
           <div className="text-center py-20">
             <span className="text-5xl">🔒</span>
-            <p className="text-on-surface-variant mt-4">Chưa có thử thách cho cấp độ này</p>
+            <p className="text-on-surface-variant mt-4">No chapters available yet</p>
           </div>
         )}
 
-        {!loading && nodes.length > 0 && (
-          <div className="relative">
-            {/* Winding path SVG */}
-            <svg
-              className="absolute left-1/2 top-0 pointer-events-none -translate-x-1/2"
-              width="60" height={nodes.length * 140 + 60}
-              viewBox={`0 0 60 ${nodes.length * 140 + 60}`}
-              fill="none"
-            >
-              <path
-                d={`M30 0 ${Array.from({ length: nodes.length }, (_, i) => `L30 ${(i + 1) * 140}`).join(' ')}`}
-                stroke="#D4C5A1"
-                strokeWidth="6"
-                strokeDasharray="10 8"
-                strokeLinecap="round"
-              />
-            </svg>
+        {!loading && chapters.length > 0 && (
+          <div className="space-y-8 pb-8">
+            {chapters.map((chapterNodes) => {
+              const chapter = chapterNodes[0];
+              const subjectKey = chapter.unitId.split('_')[0] || 'general';
+              const style = SUBJECT_STYLE[subjectKey] ?? SUBJECT_STYLE.general;
 
-            {/* Nodes */}
-            <div className="flex flex-col items-center gap-10">
-              {nodes.map((node, index) => {
-                const rawState = getNodeState(node);
-                const state = rawState === 'unlocked' && currentNodeId === node.id ? 'current' : rawState;
-                const style = SUBJECT_STYLE[node.subjectKey] ?? SUBJECT_STYLE['general'];
-                const isLeft = index % 2 === 0;
-                const best = bestScores[node.id] ?? 0;
-                const stars = CurriculumBuilder.getStarFromScore(best);
-
-                return (
-                  <div
-                    key={node.id}
-                    className={`relative flex flex-col items-center w-full ${isLeft ? 'pl-12 pr-32' : 'pl-32 pr-12'}`}
-                    style={{ alignItems: isLeft ? 'flex-start' : 'flex-end' }}
-                  >
-                    {/* Node button */}
-                    <button
-                      disabled={state === 'locked'}
-                      onClick={() => navigate(`/stage?unitId=${encodeURIComponent(node.id)}`)}
-                      className={`relative flex flex-col items-center gap-2 transition-all active:scale-95 ${
-                        state === 'locked' ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer hover:scale-105'
-                      }`}
-                    >
-                      {/* Node circle */}
-                      <div
-                        className={`w-20 h-20 rounded-full flex items-center justify-center text-3xl shadow-lg border-4 ${
-                          state === 'current'
-                            ? 'border-primary shadow-[0_0_20px_rgba(212,175,55,0.6)] animate-pulse'
-                            : state === 'mastered'
-                            ? 'border-yellow-300 shadow-[0_0_18px_rgba(212,175,55,0.55)]'
-                            : state === 'completed'
-                            ? 'border-green-400'
-                            : state === 'unlocked'
-                            ? 'border-white/80'
-                            : 'border-gray-300'
-                        }`}
-                        style={{
-                          background: state === 'locked'
-                            ? '#ccc'
-                            : `linear-gradient(135deg, ${style.color}dd, ${style.color}99)`,
-                        }}
-                      >
-                        {state === 'locked' ? '🔒' : style.emoji}
-                      </div>
-
-                      {/* Label */}
-                      <div className="text-center max-w-[120px]">
-                        <p className="text-xs font-bold text-primary leading-tight">{node.subject}</p>
-                        <p className="text-[10px] text-on-surface-variant mt-0.5">
-                          {node.exerciseCount} thử thách • {node.xpReward} XP
-                        </p>
-                        {state === 'locked' && (
-                          <p className="text-[10px] text-on-surface-variant/80 mt-0.5">🔒 Cần đạt 70% node trước</p>
-                        )}
-                        {(state === 'completed' || state === 'mastered') && (
-                          <p className="text-[10px] text-on-surface-variant mt-0.5">
-                            {'⭐'.repeat(stars)} {best}% best
-                          </p>
-                        )}
-                      </div>
-
-                      {/* "START" badge on current node */}
-                      {state === 'current' && (
-                        <div className="bg-primary text-on-primary text-xs font-black px-4 py-1 rounded-full shadow-md tracking-widest">
-                          BẮT ĐẦU!
-                        </div>
-                      )}
-                    </button>
+              return (
+                <section key={chapter.chapterId} className="rounded-2xl border border-outline-variant/40 bg-surface-container-low/80 p-4">
+                  <div className="mb-4">
+                    <p className="text-xs uppercase tracking-widest text-on-surface-variant">Chapter {chapter.chapterOrder}</p>
+                    <h2 className="font-bold text-sm text-primary">{chapter.chapterTitle}</h2>
                   </div>
-                );
-              })}
 
-              {/* End of chapter */}
-              <div className="flex flex-col items-center gap-2 py-6 opacity-50">
-                <span className="text-4xl">✨</span>
-                <p className="text-xs text-on-surface-variant">Hết chương — tiếp tục ở năm sau!</p>
-              </div>
-            </div>
+                  <div className="relative">
+                    <div className="absolute left-6 top-8 bottom-8 w-1 rounded-full bg-outline-variant/40" />
+                    <div className="space-y-4">
+                      {chapterNodes.map((node) => {
+                        const key = getNodeProgressKey(node);
+                        const state = nodeState(node);
+                        const isPrimaryCurrent = state === 'current' && firstCurrentKey === key;
+                        const best = bestScores[key] ?? 0;
+
+                        return (
+                          <div key={key} className="relative flex items-start gap-3">
+                            <button
+                              disabled={state === 'locked'}
+                              onClick={() =>
+                                navigate(
+                                  `/stage?unitId=${encodeURIComponent(node.unitId)}&node=${node.nodeOrder}`
+                                )
+                              }
+                              className={`w-12 h-12 mt-1 rounded-full border-4 flex items-center justify-center text-xl shadow-md transition-all ${
+                                state === 'locked'
+                                  ? 'bg-gray-200 border-gray-300 opacity-50 cursor-not-allowed'
+                                  : state === 'mastered'
+                                  ? 'border-yellow-300 shadow-[0_0_16px_rgba(212,175,55,0.55)]'
+                                  : state === 'completed'
+                                  ? 'border-green-400'
+                                  : isPrimaryCurrent
+                                  ? 'border-primary animate-pulse shadow-[0_0_14px_rgba(116,16,16,0.45)]'
+                                  : 'border-white/80'
+                              }`}
+                              style={{
+                                background:
+                                  state === 'locked'
+                                    ? '#d7d7d7'
+                                    : `linear-gradient(135deg, ${style.color}dd, ${style.color}99)`,
+                              }}
+                            >
+                              {state === 'locked' ? '🔒' : style.emoji}
+                            </button>
+
+                            <div className="flex-1 rounded-xl bg-white/70 border border-outline-variant/40 p-3">
+                              <div className="flex items-center justify-between gap-2">
+                                <p className="font-semibold text-sm text-on-surface">{node.nodeLabel}</p>
+                                <p className="text-[11px] text-on-surface-variant">
+                                  {node.challengeCount} challenges • {node.xpReward} XP
+                                </p>
+                              </div>
+                              <p className="text-[11px] text-on-surface-variant mt-1">
+                                {state === 'locked' && 'Locked: complete previous node with >= 70%'}
+                                {state === 'current' && 'Ready: start this node now'}
+                                {state === 'completed' && `Completed: ${best}%`}
+                                {state === 'mastered' && `Mastered: ${best}%`}
+                              </p>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </section>
+              );
+            })}
           </div>
         )}
       </main>
     </div>
   );
 }
+

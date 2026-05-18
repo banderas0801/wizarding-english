@@ -1,4 +1,4 @@
-import { useGameStore } from '../store/useGameStore';
+﻿import { useGameStore } from '../store/useGameStore';
 
 const dict = {
   en: {
@@ -8,6 +8,7 @@ const dict = {
     short_answer: 'Short answer',
     matching_instructions: 'Match each pair',
     matching_tap_to_match: 'Tap left, then tap right',
+    skip: 'Skip',
     answer_placeholder: 'Type your answer...',
     submit: 'Check',
     next: 'Next',
@@ -35,6 +36,7 @@ const dict = {
     short_answer: 'Trả lời ngắn',
     matching_instructions: 'Nối từng cặp đúng',
     matching_tap_to_match: 'Chạm cột trái rồi cột phải',
+    skip: 'Bỏ qua',
     answer_placeholder: 'Nhập câu trả lời...',
     submit: 'Kiểm tra',
     next: 'Tiếp',

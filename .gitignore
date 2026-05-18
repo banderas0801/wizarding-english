@@ -24,3 +24,5 @@ public/lessons-manifest.json
 # Editor
 .vscode/
 .idea/
+
+reports/

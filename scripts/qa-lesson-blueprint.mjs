@@ -11,7 +11,7 @@ const REPORT_DIR = path.join(ROOT, 'reports');
 const REPORT_PATH = path.join(REPORT_DIR, 'lesson-blueprint-report.json');
 
 const MIN_CHALLENGES_PER_NODE = 10;
-const EXPECTED_LOOP = ['duel', 'match', 'riddle'];
+const EXPECTED_LOOP = ['mcq', 'mcq', 'duel', 'mcq', 'fill_blank', 'matching', 'short_answer'];
 
 const SUBJECT_TO_LOCATION = {
   reading: 'library',
