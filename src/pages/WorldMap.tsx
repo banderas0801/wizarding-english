@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { BottomNavBar } from '../components/common/BottomNavBar';
 import { useCurriculum } from '../contexts/CurriculumContext';
 import { useGameStore } from '../store/useGameStore';
+import { CurriculumBuilder } from '../services/CurriculumBuilder';
 
 // Map each subject to a Hogwarts location icon & color
 const SUBJECT_STYLE: Record<string, { icon: string; emoji: string; color: string }> = {
@@ -25,7 +26,7 @@ const GRADE_EMOJIS = ['🎒', '🦉', '🧙', '🔮', '🐉', '⚡', '🌟'];
 export default function WorldMap() {
   const navigate = useNavigate();
   const { curriculum, loading } = useCurriculum();
-  const { xp } = useGameStore();
+  const { xp, completedUnits, bestScores, isUnitUnlocked } = useGameStore();
   const [selectedGrade, setSelectedGrade] = useState(1);
 
   // Build flat list of nodes for the selected grade
@@ -45,18 +46,35 @@ export default function WorldMap() {
           exerciseCount,
           xpReward: exerciseCount * 10,
           unitIndex: si * 100 + ui,
+          prerequisiteId: curriculum
+            ? CurriculumBuilder.getPrerequisiteUnitId(curriculum, unit.id)
+            : null,
+          isFirstInGrade: curriculum
+            ? CurriculumBuilder.isFirstUnitOfGrade(curriculum, unit.id)
+            : false,
         };
       })
     ).filter(n => n.exerciseCount > 0); // only nodes with real challenges
   }, [curriculum, selectedGrade]);
 
-  // Simple lock logic: first 3 unlocked, rest based on XP
-  const getNodeState = (index: number) => {
-    if (index === 0) return 'current';
-    if (index <= 2) return 'unlocked';
-    if (index * 100 < xp) return 'unlocked';
-    return 'locked';
+  const getNodeState = (node: (typeof nodes)[number]): 'locked' | 'unlocked' | 'current' | 'completed' | 'mastered' => {
+    const best = bestScores[node.id] ?? 0;
+    const completed = Boolean(completedUnits[node.id]);
+
+    if (best >= 90) return 'mastered';
+    if (best >= 70 || completed) return 'completed';
+
+    const unlocked = node.isFirstInGrade || isUnitUnlocked(node.id, node.prerequisiteId);
+    if (!unlocked) return 'locked';
+    return 'unlocked';
   };
+
+  const currentNodeId = useMemo(() => {
+    for (const node of nodes) {
+      if (getNodeState(node) === 'unlocked') return node.id;
+    }
+    return null;
+  }, [nodes, bestScores, completedUnits, isUnitUnlocked]);
 
   return (
     <div
@@ -137,9 +155,12 @@ export default function WorldMap() {
             {/* Nodes */}
             <div className="flex flex-col items-center gap-10">
               {nodes.map((node, index) => {
-                const state = getNodeState(index);
+                const rawState = getNodeState(node);
+                const state = rawState === 'unlocked' && currentNodeId === node.id ? 'current' : rawState;
                 const style = SUBJECT_STYLE[node.subjectKey] ?? SUBJECT_STYLE['general'];
                 const isLeft = index % 2 === 0;
+                const best = bestScores[node.id] ?? 0;
+                const stars = CurriculumBuilder.getStarFromScore(best);
 
                 return (
                   <div
@@ -160,6 +181,10 @@ export default function WorldMap() {
                         className={`w-20 h-20 rounded-full flex items-center justify-center text-3xl shadow-lg border-4 ${
                           state === 'current'
                             ? 'border-primary shadow-[0_0_20px_rgba(212,175,55,0.6)] animate-pulse'
+                            : state === 'mastered'
+                            ? 'border-yellow-300 shadow-[0_0_18px_rgba(212,175,55,0.55)]'
+                            : state === 'completed'
+                            ? 'border-green-400'
                             : state === 'unlocked'
                             ? 'border-white/80'
                             : 'border-gray-300'
@@ -179,6 +204,14 @@ export default function WorldMap() {
                         <p className="text-[10px] text-on-surface-variant mt-0.5">
                           {node.exerciseCount} thử thách • {node.xpReward} XP
                         </p>
+                        {state === 'locked' && (
+                          <p className="text-[10px] text-on-surface-variant/80 mt-0.5">🔒 Cần đạt 70% node trước</p>
+                        )}
+                        {(state === 'completed' || state === 'mastered') && (
+                          <p className="text-[10px] text-on-surface-variant mt-0.5">
+                            {'⭐'.repeat(stars)} {best}% best
+                          </p>
+                        )}
                       </div>
 
                       {/* "START" badge on current node */}

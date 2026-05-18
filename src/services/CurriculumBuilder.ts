@@ -467,6 +467,67 @@ export class CurriculumBuilder {
 
     return results;
   }
+
+  /**
+   * Return prerequisite unit id for progression gating.
+   * Order:
+   * 1) previous unit in same subject
+   * 2) last unit in previous subject of same grade
+   * 3) last unit in last subject of previous grade
+   */
+  static getPrerequisiteUnitId(
+    curriculum: CurriculumStructure,
+    targetUnitId: string
+  ): string | null {
+    for (let li = 0; li < curriculum.levels.length; li++) {
+      const level = curriculum.levels[li];
+      for (let si = 0; si < level.subjects.length; si++) {
+        const subject = level.subjects[si];
+        for (let ui = 0; ui < subject.units.length; ui++) {
+          const unit = subject.units[ui];
+          if (unit.id !== targetUnitId) continue;
+
+          if (ui > 0) {
+            return subject.units[ui - 1].id;
+          }
+
+          if (si > 0) {
+            const prevSubject = level.subjects[si - 1];
+            return prevSubject.units[prevSubject.units.length - 1]?.id ?? null;
+          }
+
+          if (li > 0) {
+            const prevLevel = curriculum.levels[li - 1];
+            const prevSubject = prevLevel.subjects[prevLevel.subjects.length - 1];
+            return prevSubject?.units[prevSubject.units.length - 1]?.id ?? null;
+          }
+
+          return null;
+        }
+      }
+    }
+
+    return null;
+  }
+
+  static isFirstUnitOfGrade(
+    curriculum: CurriculumStructure,
+    targetUnitId: string
+  ): boolean {
+    for (const level of curriculum.levels) {
+      const firstSubject = level.subjects[0];
+      const firstUnit = firstSubject?.units[0];
+      if (firstUnit?.id === targetUnitId) return true;
+    }
+    return false;
+  }
+
+  static getStarFromScore(score: number): 0 | 1 | 2 | 3 {
+    if (score >= 90) return 3;
+    if (score >= 70) return 2;
+    if (score >= 50) return 1;
+    return 0;
+  }
 }
 
 export default CurriculumBuilder;
