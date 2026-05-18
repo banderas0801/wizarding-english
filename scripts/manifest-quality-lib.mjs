@@ -8,6 +8,24 @@ const GENERIC_QUESTION_PATTERNS = [
 const PLACEHOLDER_OPTION_PATTERN = /^option\s*\d+[\.\)]?$/i;
 const VIETNAMESE_DIACRITIC_PATTERN =
   /[ăâđêôơưáàảãạấầẩẫậắằẳẵặéèẻẽẹếềểễệíìỉĩịóòỏõọốồổỗộớờởỡợúùủũụứừửữựýỳỷỹỵ]/i;
+const QUESTION_NOISE_PATTERN =
+  /(warm-?up|name\s*_+|date\s*_+|teacher created resources|copyright|©)/i;
+const OPTION_POLLUTION_PATTERN =
+  /(\b[abcd]\.\s)|(\b[2-9]\.\s)|(\bstory questions?\b)|(\bfiction\b)|(\bnonfiction\b)/i;
+
+function looksLikeCleanQuestion(text) {
+  if (!text) return false;
+  if (QUESTION_NOISE_PATTERN.test(text)) return false;
+  if (text.length < 8 || text.length > 220) return false;
+  return true;
+}
+
+function looksLikeCleanOption(text) {
+  if (!text) return false;
+  if (text.length < 1 || text.length > 120) return false;
+  if (OPTION_POLLUTION_PATTERN.test(text)) return false;
+  return true;
+}
 
 function isGenericQuestion(question) {
   return GENERIC_QUESTION_PATTERNS.some(pattern => pattern.test(question));
@@ -33,19 +51,24 @@ function makeStats() {
     droppedLessons: 0,
     inputExercises: 0,
     outputExercises: 0,
-    droppedExercises: 0,
-    dropReasons: {
-      emptyQuestion: 0,
-      genericQuestion: 0,
-      nonEnglishQuestion: 0,
-      insufficientOptions: 0,
-      placeholderOption: 0,
-      nonEnglishOption: 0,
-      missingAnswerForMcq: 0,
-      answerNotInOptions: 0,
-      noCoreContent: 0,
-      nonEnglishCoreContent: 0,
-      noUsableExercises: 0,
+      droppedExercises: 0,
+      dropReasons: {
+        emptyQuestion: 0,
+        noisyQuestion: 0,
+        badQuestionLength: 0,
+        genericQuestion: 0,
+        nonEnglishQuestion: 0,
+        insufficientOptions: 0,
+        pollutedOption: 0,
+        badOptionLength: 0,
+        placeholderOption: 0,
+        nonEnglishOption: 0,
+        missingAnswerForMcq: 0,
+        answerNotInOptions: 0,
+        duplicateAnswerInOptions: 0,
+        noCoreContent: 0,
+        nonEnglishCoreContent: 0,
+        noUsableExercises: 0,
     },
   };
 }
@@ -69,6 +92,14 @@ function sanitizeLessonsWithStats(lessons) {
           stats.dropReasons.emptyQuestion++;
           return false;
         }
+        if (QUESTION_NOISE_PATTERN.test(question)) {
+          stats.dropReasons.noisyQuestion++;
+          return false;
+        }
+        if (!looksLikeCleanQuestion(question)) {
+          stats.dropReasons.badQuestionLength++;
+          return false;
+        }
         if (isGenericQuestion(question)) {
           stats.dropReasons.genericQuestion++;
           return false;
@@ -77,7 +108,7 @@ function sanitizeLessonsWithStats(lessons) {
           stats.dropReasons.nonEnglishQuestion++;
           return false;
         }
-        if (isMultipleChoice && options.length < 2) {
+        if (isMultipleChoice && options.length < 3) {
           stats.dropReasons.insufficientOptions++;
           return false;
         }
@@ -89,6 +120,14 @@ function sanitizeLessonsWithStats(lessons) {
           stats.dropReasons.nonEnglishOption++;
           return false;
         }
+        if (isMultipleChoice && options.some(opt => !looksLikeCleanOption(String(opt).trim()))) {
+          stats.dropReasons.badOptionLength++;
+          return false;
+        }
+        if (isMultipleChoice && options.some(opt => OPTION_POLLUTION_PATTERN.test(String(opt)))) {
+          stats.dropReasons.pollutedOption++;
+          return false;
+        }
 
         if (isMultipleChoice) {
           if (typeof answer !== 'string' || !answer.trim()) {
@@ -97,6 +136,10 @@ function sanitizeLessonsWithStats(lessons) {
           }
           if (!options.includes(answer)) {
             stats.dropReasons.answerNotInOptions++;
+            return false;
+          }
+          if (options.filter(opt => opt === answer).length !== 1) {
+            stats.dropReasons.duplicateAnswerInOptions++;
             return false;
           }
         }

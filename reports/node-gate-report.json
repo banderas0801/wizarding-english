@@ -1,44 +1,23 @@
 {
-  "generatedAt": "2026-05-17T14:03:04.147Z",
-  "inputLessons": 5307,
-  "sanitizedLessons": 1816,
-  "droppedLessons": 3491,
-  "droppedExercises": 3491,
+  "generatedAt": "2026-05-18T00:07:50.590Z",
+  "inputLessons": 900,
+  "sanitizedLessons": 669,
+  "droppedLessons": 231,
+  "droppedExercises": 710,
   "minChallengesPerNode": 10,
   "summary": {
     "great_hall": {
-      "lessons": 1113,
-      "nodes": 125,
+      "lessons": 543,
+      "nodes": 101,
       "minChallenges": 10,
-      "maxChallenges": 17,
+      "maxChallenges": 13,
       "badNodes": 0
     },
     "library": {
-      "lessons": 127,
+      "lessons": 126,
       "nodes": 36,
       "minChallenges": 12,
-      "maxChallenges": 13,
-      "badNodes": 0
-    },
-    "herbology_greenhouse": {
-      "lessons": 534,
-      "nodes": 72,
-      "minChallenges": 10,
-      "maxChallenges": 15,
-      "badNodes": 0
-    },
-    "arithmancy_classroom": {
-      "lessons": 31,
-      "nodes": 3,
-      "minChallenges": 10,
-      "maxChallenges": 13,
-      "badNodes": 0
-    },
-    "potions_classroom": {
-      "lessons": 11,
-      "nodes": 1,
-      "minChallenges": 14,
-      "maxChallenges": 14,
+      "maxChallenges": 12,
       "badNodes": 0
     }
   },
