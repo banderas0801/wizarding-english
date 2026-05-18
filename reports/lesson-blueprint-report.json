@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-18T00:26:28.200Z",
+  "generatedAt": "2026-05-18T02:08:39.343Z",
   "inputLessons": 669,
   "sanitizedLessons": 669,
   "blueprint": {
@@ -31,5 +31,6 @@
       "badModeSequence": 0
     }
   },
-  "failures": []
+  "failures": [],
+  "matchingRuleFailures": []
 }

@@ -103,6 +103,39 @@ function main() {
   if (!Array.isArray(raw)) throw new Error('Manifest must be array');
 
   const { sanitized } = sanitizeLessonsWithStats(raw);
+  const matchingRuleFailures = [];
+
+  for (const lesson of raw) {
+    const exercises = Array.isArray(lesson.exercises) ? lesson.exercises : [];
+    for (const ex of exercises) {
+      if (ex?.type !== 'matching') continue;
+      const pairs = Array.isArray(ex.pairs) ? ex.pairs : [];
+      const leftSet = new Set();
+      const rightSet = new Set();
+      const hasValidLength = pairs.length >= 3 && pairs.length <= 6;
+      let hasEmpty = false;
+      let hasDuplicate = false;
+
+      for (const p of pairs) {
+        const left = String(p?.left ?? '').trim();
+        const right = String(p?.right ?? '').trim();
+        if (!left || !right) hasEmpty = true;
+        if (leftSet.has(left) || rightSet.has(right)) hasDuplicate = true;
+        leftSet.add(left);
+        rightSet.add(right);
+      }
+
+      if (!hasValidLength || hasEmpty || hasDuplicate) {
+        matchingRuleFailures.push({
+          lessonId: lesson.lessonId,
+          exerciseId: ex.id,
+          pairsLength: pairs.length,
+          hasEmpty,
+          hasDuplicate,
+        });
+      }
+    }
+  }
   const byLocation = new Map();
   for (const lesson of sanitized) {
     const subject = normalizeSubject(lesson.subject);
@@ -161,12 +194,15 @@ function main() {
     },
     summary,
     failures,
+    matchingRuleFailures,
   };
 
   fs.writeFileSync(REPORT_PATH, JSON.stringify(report, null, 2));
   console.log(`Lesson blueprint report written: ${REPORT_PATH}`);
-  if (failures.length) {
-    console.error(`LESSON BLUEPRINT GATE FAILED: ${failures.length} location(s) invalid.`);
+  if (failures.length || matchingRuleFailures.length) {
+    console.error(
+      `LESSON BLUEPRINT GATE FAILED: ${failures.length} location issue(s), ${matchingRuleFailures.length} matching issue(s).`
+    );
     process.exit(1);
   }
   console.log('LESSON BLUEPRINT GATE PASSED');

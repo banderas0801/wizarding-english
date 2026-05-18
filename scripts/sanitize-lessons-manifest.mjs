@@ -30,6 +30,7 @@ function main() {
   console.log(`Input exercises: ${stats.inputExercises}`);
   console.log(`Output exercises: ${stats.outputExercises}`);
   console.log(`Dropped exercises: ${stats.droppedExercises}`);
+  console.log(`Dropped malformed matching: ${stats.droppedMatchingCount}`);
   console.log(`Output file: ${OUTPUT_PATH}`);
 }
 

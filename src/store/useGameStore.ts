@@ -18,14 +18,14 @@ interface GameState {
   inventory: string[];
   
   // Settings & Onboarding
-  language: string | null;
+  language: 'vi' | 'en';
   house: string | null;
   hasCompletedOnboarding: boolean;
   currentStreak: number;
   lastPlayedAt: string | null;
   completedUnits: Record<string, UnitProgress>;
   bestScores: Record<string, number>;
-  setLanguage: (lang: string) => void;
+  setLanguage: (lang: 'vi' | 'en') => void;
   setHouse: (house: string) => void;
   completeOnboarding: () => void;
 
@@ -50,7 +50,7 @@ export const useGameStore = create<GameState>()(
       unlockedLessons: ['transfiguration', 'creatures', 'history', 'astronomy', 'herbology'],
       inventory: ['wand_basic', 'standard_book_of_spells'],
       
-      language: null,
+      language: 'vi',
       house: null,
       hasCompletedOnboarding: false,
       currentStreak: 0,
@@ -121,11 +121,11 @@ export const useGameStore = create<GameState>()(
     }),
     {
       name: 'wizarding-academy-storage', // key in localStorage
-      version: 2,
+      version: 3,
       migrate: (persistedState: any, version) => {
         if (!persistedState) return persistedState;
         if (version < 2) {
-          return {
+          persistedState = {
             ...persistedState,
             currentStreak: persistedState.currentStreak ?? 0,
             lastPlayedAt: persistedState.lastPlayedAt ?? null,
@@ -133,7 +133,16 @@ export const useGameStore = create<GameState>()(
             bestScores: persistedState.bestScores ?? {},
           };
         }
-        return persistedState;
+        if (version < 3) {
+          return {
+            ...persistedState,
+            language: persistedState.language === 'en' ? 'en' : 'vi',
+          };
+        }
+        return {
+          ...persistedState,
+          language: persistedState.language === 'en' ? 'en' : 'vi',
+        };
       },
     }
   )

@@ -1,6 +1,5 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { BottomNavBar } from '../components/common/BottomNavBar';
 import { useCurriculum } from '../contexts/CurriculumContext';
 import { useGameStore } from '../store/useGameStore';
 import { CurriculumBuilder } from '../services/CurriculumBuilder';
@@ -57,24 +56,22 @@ export default function WorldMap() {
     ).filter(n => n.exerciseCount > 0); // only nodes with real challenges
   }, [curriculum, selectedGrade]);
 
-  const getNodeState = (node: (typeof nodes)[number]): 'locked' | 'unlocked' | 'current' | 'completed' | 'mastered' => {
+  const getNodeState = useCallback((node: { id: string; isFirstInGrade: boolean; prerequisiteId: string | null }): 'locked' | 'unlocked' | 'current' | 'completed' | 'mastered' => {
     const best = bestScores[node.id] ?? 0;
     const completed = Boolean(completedUnits[node.id]);
-
     if (best >= 90) return 'mastered';
     if (best >= 70 || completed) return 'completed';
-
     const unlocked = node.isFirstInGrade || isUnitUnlocked(node.id, node.prerequisiteId);
     if (!unlocked) return 'locked';
     return 'unlocked';
-  };
+  }, [bestScores, completedUnits, isUnitUnlocked]);
 
   const currentNodeId = useMemo(() => {
     for (const node of nodes) {
       if (getNodeState(node) === 'unlocked') return node.id;
     }
     return null;
-  }, [nodes, bestScores, completedUnits, isUnitUnlocked]);
+  }, [nodes, getNodeState]);
 
   return (
     <div
@@ -234,8 +231,6 @@ export default function WorldMap() {
           </div>
         )}
       </main>
-
-      <BottomNavBar />
     </div>
   );
 }

@@ -7,19 +7,27 @@
 export type ExerciseType =
   | 'multiple_choice'
   | 'fill_blank'
-  | 'true_false'
   | 'matching'
   | 'short_answer'
+  | 'duel'
+  | 'true_false'
   | 'pronunciation'
   | 'listening'
   | 'writing';
+
+export type MatchingPair = {
+  left: string;
+  right: string;
+};
 
 export interface Exercise {
   id: string;
   type: ExerciseType;
   question: string;
   options?: string[];
+  pairs?: MatchingPair[];
   answer: string | string[];
+  acceptableAnswers?: string[];
   xpReward: number;
   goldReward?: number;
   difficulty: 'easy' | 'medium' | 'hard';

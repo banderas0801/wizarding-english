@@ -21,7 +21,7 @@ const DragonQuest            = lazy(() => import('./pages/DragonQuest'))
 const CombatArena            = lazy(() => import('./pages/CombatArena'))
 const MidnightDuelQuest      = lazy(() => import('./pages/MidnightDuelQuest'))
 const SentenceStructureQuest = lazy(() => import('./pages/SentenceStructureQuest'))
-const LessonEvan             = lazy(() => import('./pages/LessonEvan'))
+const LessonEvanEnhanced     = lazy(() => import('./pages/LessonEvan_Enhanced'))
 const Shop                   = lazy(() => import('./pages/Shop'))
 const EquipmentDetail        = lazy(() => import('./pages/EquipmentDetail'))
 const DailyQuests            = lazy(() => import('./pages/DailyQuests'))
@@ -73,9 +73,9 @@ export default function App() {
             <Route path="/select-language" element={<LanguageSelection />} />
             <Route path="/sorting"         element={<SortingCeremony />} />
             <Route path="/hogwarts-map"    element={<HogwartsMapEnhanced />} />
-            <Route path="/location/:name"  element={<LocationDetail />} />
+            <Route path="/location/:locationKey"  element={<LocationDetail />} />
             <Route path="/location/hospital" element={<HospitalWing />} />
-            <Route path="/lesson/evan"     element={<LessonEvan />} />
+            <Route path="/lesson/evan"     element={<LessonEvanEnhanced />} />
             <Route path="/curriculum"      element={<CurriculumCenterEnhanced />} />
             <Route path="/quest/y4-dragon" element={<DragonQuest />} />
             <Route path="/quest/1-daily-warm-ups-reading-grade-1-p100" element={<SentenceStructureQuest />} />

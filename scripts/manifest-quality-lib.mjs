@@ -51,8 +51,9 @@ function makeStats() {
     droppedLessons: 0,
     inputExercises: 0,
     outputExercises: 0,
-      droppedExercises: 0,
-      dropReasons: {
+    droppedExercises: 0,
+    droppedMatchingCount: 0,
+    dropReasons: {
         emptyQuestion: 0,
         noisyQuestion: 0,
         badQuestionLength: 0,
@@ -69,8 +70,26 @@ function makeStats() {
         noCoreContent: 0,
         nonEnglishCoreContent: 0,
         noUsableExercises: 0,
+        malformedMatching: 0,
     },
   };
+}
+
+function isValidMatchingExercise(exercise) {
+  if (exercise?.type !== 'matching') return true;
+  const pairs = Array.isArray(exercise?.pairs) ? exercise.pairs : [];
+  if (pairs.length < 3 || pairs.length > 6) return false;
+  const lefts = new Set();
+  const rights = new Set();
+  for (const pair of pairs) {
+    const left = String(pair?.left ?? '').trim();
+    const right = String(pair?.right ?? '').trim();
+    if (!left || !right) return false;
+    if (lefts.has(left) || rights.has(right)) return false;
+    lefts.add(left);
+    rights.add(right);
+  }
+  return true;
 }
 
 function sanitizeLessonsWithStats(lessons) {
@@ -142,6 +161,14 @@ function sanitizeLessonsWithStats(lessons) {
             stats.dropReasons.duplicateAnswerInOptions++;
             return false;
           }
+        }
+
+        if (!isValidMatchingExercise(exercise)) {
+          stats.dropReasons.malformedMatching++;
+          stats.droppedMatchingCount++;
+          const unitHint = lesson?.unitTitle || lesson?.unit || lesson?.lessonId || 'unknown-unit';
+          console.warn(`[sanitize] drop malformed matching in unit ${unitHint}`);
+          return false;
         }
 
         return true;

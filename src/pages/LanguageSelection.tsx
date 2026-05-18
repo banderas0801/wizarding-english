@@ -9,7 +9,7 @@ export default function LanguageSelection() {
   const navigate = useNavigate()
   const { setLanguage } = useGameStore()
 
-  const handleSelectLanguage = (lang: string) => {
+  const handleSelectLanguage = (lang: 'en' | 'vi') => {
     setLanguage(lang)
     navigate('/sorting')
   }
