@@ -8,6 +8,7 @@
     "prebuild": "node scripts/sanitize-lessons-manifest.mjs && node scripts/qa-node-gate.mjs && node scripts/qa-lesson-blueprint.mjs",
     "build": "tsc -b && vite build",
     "sanitize:manifest": "node scripts/sanitize-lessons-manifest.mjs",
+    "split:manifest": "node scripts/split-manifest.mjs",
     "audit:manifest": "node scripts/audit-lessons-manifest.mjs",
     "qa:node-gate": "node scripts/qa-node-gate.mjs",
     "qa:lesson-blueprint": "node scripts/qa-lesson-blueprint.mjs",

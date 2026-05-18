@@ -1,0 +1,64 @@
+{
+  "version": 1,
+  "generatedAt": "2026-05-18T00:19:25.466Z",
+  "source": "lessons-manifest.sanitized.json",
+  "totalLessons": 669,
+  "grades": {
+    "0": {
+      "file": "/lessons/grade-0.json",
+      "lessons": 18,
+      "exercises": 54,
+      "subjects": {
+        "general": 18
+      }
+    },
+    "1": {
+      "file": "/lessons/grade-1.json",
+      "lessons": 52,
+      "exercises": 88,
+      "subjects": {
+        "general": 52
+      }
+    },
+    "2": {
+      "file": "/lessons/grade-2.json",
+      "lessons": 116,
+      "exercises": 197,
+      "subjects": {
+        "general": 116
+      }
+    },
+    "3": {
+      "file": "/lessons/grade-3.json",
+      "lessons": 142,
+      "exercises": 283,
+      "subjects": {
+        "general": 142
+      }
+    },
+    "4": {
+      "file": "/lessons/grade-4.json",
+      "lessons": 155,
+      "exercises": 347,
+      "subjects": {
+        "general": 155
+      }
+    },
+    "5": {
+      "file": "/lessons/grade-5.json",
+      "lessons": 168,
+      "exercises": 464,
+      "subjects": {
+        "general": 168
+      }
+    },
+    "6": {
+      "file": "/lessons/grade-6.json",
+      "lessons": 18,
+      "exercises": 72,
+      "subjects": {
+        "general": 18
+      }
+    }
+  }
+}

@@ -282,10 +282,11 @@ class LessonLoaderService {
    */
   private async loadExtractedLessons(): Promise<ExtractedLesson[]> {
     try {
-      // Use absolute path from root, and add tunnel bypass headers
-      // Adding a cache buster so that hot reloads and mobile refreshes ALWAYS get the latest data!
       const cacheBuster = new Date().getTime();
-      const response = await fetch(`/lessons-manifest.json?t=${cacheBuster}`, {
+      let lessons: any[] = [];
+
+      // Prefer chunked manifest: /lessons/index.json + /lessons/grade-*.json
+      const indexRes = await fetch(`/lessons/index.json?t=${cacheBuster}`, {
         headers: {
           'Bypass-Tunnel-Reminder': 'true',
           'ngrok-skip-browser-warning': 'true',
@@ -293,24 +294,54 @@ class LessonLoaderService {
         }
       });
 
-      if (!response.ok) {
-        throw new Error(`Failed to load manifest: ${response.status} ${response.statusText}`);
+      if (indexRes.ok) {
+        const index = await indexRes.json();
+        const gradeFiles: string[] = Object.values(index?.grades || {})
+          .map((g: any) => g?.file)
+          .filter((v: unknown): v is string => typeof v === 'string' && v.length > 0);
+
+        const chunks = await Promise.all(
+          gradeFiles.map(async (file) => {
+            const res = await fetch(`${file}?t=${cacheBuster}`, {
+              headers: {
+                'Bypass-Tunnel-Reminder': 'true',
+                'ngrok-skip-browser-warning': 'true',
+                'Cache-Control': 'no-cache'
+              }
+            });
+            if (!res.ok) return [];
+            const text = await res.text();
+            try {
+              const parsed = JSON.parse(text);
+              return Array.isArray(parsed) ? parsed : [];
+            } catch {
+              return [];
+            }
+          })
+        );
+
+        lessons = chunks.flat();
+      } else {
+        // Fallback to single-file manifest
+        const response = await fetch(`/lessons-manifest.json?t=${cacheBuster}`, {
+          headers: {
+            'Bypass-Tunnel-Reminder': 'true',
+            'ngrok-skip-browser-warning': 'true',
+            'Cache-Control': 'no-cache'
+          }
+        });
+        if (!response.ok) {
+          throw new Error(`Failed to load manifest: ${response.status} ${response.statusText}`);
+        }
+        const text = await response.text();
+        try {
+          lessons = JSON.parse(text);
+        } catch {
+          throw new Error(`Invalid JSON response: ${text.substring(0, 20)}...`);
+        }
       }
 
-      // Read as text first to handle potential HTML responses from tunnels
-      const text = await response.text();
-      
-      let lessons;
-      try {
-        lessons = JSON.parse(text);
-      } catch (e) {
-        console.error('Failed to parse JSON. Response starts with:', text.substring(0, 100));
-        throw new Error(`Invalid JSON response: ${text.substring(0, 20)}...`);
-      }
-
-      if (!Array.isArray(lessons)) {
-        throw new Error('Manifest is not an array');
-      }
+      if (!Array.isArray(lessons)) throw new Error('Manifest is not an array');
 
       // Strictly enforce NO HALLUCINATIONS: Filter out invalid exercises from the original manifest
       lessons = lessons.map((lesson: any) => {

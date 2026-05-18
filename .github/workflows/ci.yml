@@ -1,0 +1,55 @@
+name: CI — QA Gates & Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  qa-and-build:
+    name: QA Gates + Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build lessons manifest
+        run: node build-lessons-manifest.js
+        env:
+          # manifest is not committed — generate from source
+          LESSONS_DIR: ${{ github.workspace }}/../english_kids_app/output/lessons
+        continue-on-error: true  # skip if source data not available in CI
+
+      - name: "Gate 1: Sanitize manifest"
+        run: node scripts/sanitize-lessons-manifest.mjs
+
+      - name: "Gate 2: Node gate"
+        run: node scripts/qa-node-gate.mjs
+
+      - name: "Gate 3: Lesson blueprint"
+        run: node scripts/qa-lesson-blueprint.mjs
+
+      - name: TypeScript check
+        run: npx tsc -b --noEmit
+
+      - name: Vite build
+        run: npx vite build
+
+      - name: Upload dist artifact
+        uses: actions/upload-artifact@v4
+        if: github.ref == 'refs/heads/main'
+        with:
+          name: dist-${{ github.sha }}
+          path: dist/
+          retention-days: 7
