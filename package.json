@@ -9,6 +9,7 @@
     "sanitize:manifest": "node scripts/sanitize-lessons-manifest.mjs",
     "audit:manifest": "node scripts/audit-lessons-manifest.mjs",
     "qa:node-gate": "node scripts/qa-node-gate.mjs",
+    "qa:lesson-blueprint": "node scripts/qa-lesson-blueprint.mjs",
     "answerkey:apply": "node scripts/apply-answer-key-map.mjs",
     "lint": "eslint .",
     "preview": "vite preview"

@@ -1,0 +1,35 @@
+{
+  "generatedAt": "2026-05-18T00:16:25.792Z",
+  "inputLessons": 669,
+  "sanitizedLessons": 669,
+  "blueprint": {
+    "minChallengesPerNode": 10,
+    "chapterSizeNodes": 5,
+    "loopModes": [
+      "duel",
+      "match",
+      "riddle"
+    ]
+  },
+  "summary": {
+    "great_hall": {
+      "nodes": 100,
+      "chapters": 20,
+      "minChallenges": 10,
+      "maxChallenges": 17,
+      "modeLoop": "duel -> match -> riddle",
+      "badChallengeNodes": 0,
+      "badModeSequence": 0
+    },
+    "library": {
+      "nodes": 36,
+      "chapters": 8,
+      "minChallenges": 10,
+      "maxChallenges": 15,
+      "modeLoop": "duel -> match -> riddle",
+      "badChallengeNodes": 0,
+      "badModeSequence": 0
+    }
+  },
+  "failures": []
+}
