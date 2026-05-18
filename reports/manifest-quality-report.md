@@ -1,30 +1,30 @@
 # Manifest Quality Report
 
-- Generated at: 2026-05-18T00:07:50.557Z
-- Input lessons: 900
+- Generated at: 2026-05-18T00:18:43.107Z
+- Input lessons: 669
 - Output lessons: 669
-- Dropped lessons: 231 (25.67%)
-- Input exercises: 2215
+- Dropped lessons: 0 (0.00%)
+- Input exercises: 1505
 - Output exercises: 1505
-- Dropped exercises: 710 (32.05%)
+- Dropped exercises: 0 (0.00%)
 
 ## Drop Reasons
 
 | Reason | Count |
 |---|---:|
 | emptyQuestion | 0 |
-| noisyQuestion | 88 |
-| badQuestionLength | 4 |
-| genericQuestion | 3 |
+| noisyQuestion | 0 |
+| badQuestionLength | 0 |
+| genericQuestion | 0 |
 | nonEnglishQuestion | 0 |
 | insufficientOptions | 0 |
 | pollutedOption | 0 |
-| badOptionLength | 614 |
+| badOptionLength | 0 |
 | placeholderOption | 0 |
 | nonEnglishOption | 0 |
 | missingAnswerForMcq | 0 |
 | answerNotInOptions | 0 |
 | duplicateAnswerInOptions | 0 |
 | noCoreContent | 0 |
-| nonEnglishCoreContent | 1 |
-| noUsableExercises | 230 |
+| nonEnglishCoreContent | 0 |
+| noUsableExercises | 0 |

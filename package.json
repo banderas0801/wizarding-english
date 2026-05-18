@@ -5,21 +5,21 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "prebuild": "node scripts/sanitize-lessons-manifest.mjs && node scripts/qa-node-gate.mjs && node scripts/qa-lesson-blueprint.mjs",
     "build": "tsc -b && vite build",
     "sanitize:manifest": "node scripts/sanitize-lessons-manifest.mjs",
     "audit:manifest": "node scripts/audit-lessons-manifest.mjs",
     "qa:node-gate": "node scripts/qa-node-gate.mjs",
     "qa:lesson-blueprint": "node scripts/qa-lesson-blueprint.mjs",
+    "qa:all": "node scripts/sanitize-lessons-manifest.mjs && node scripts/audit-lessons-manifest.mjs && node scripts/qa-node-gate.mjs && node scripts/qa-lesson-blueprint.mjs",
     "answerkey:apply": "node scripts/apply-answer-key-map.mjs",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
-    "braces": "^3.0.3",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "react-router-dom": "^7.15.1",
-    "ts-interface-checker": "^1.0.2",
     "zustand": "^5.0.13"
   },
   "devDependencies": {

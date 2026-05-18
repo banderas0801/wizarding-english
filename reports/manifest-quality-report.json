@@ -1,30 +1,30 @@
 {
-  "generatedAt": "2026-05-18T00:07:50.548Z",
+  "generatedAt": "2026-05-18T00:18:43.105Z",
   "inputPath": "C:\\Users\\Admin\\.gemini\\antigravity\\scratch\\wizarding-app\\public\\lessons-manifest.json",
   "summary": {
-    "inputLessons": 900,
+    "inputLessons": 669,
     "outputLessons": 669,
-    "droppedLessons": 231,
-    "inputExercises": 2215,
+    "droppedLessons": 0,
+    "inputExercises": 1505,
     "outputExercises": 1505,
-    "droppedExercises": 710,
+    "droppedExercises": 0,
     "dropReasons": {
       "emptyQuestion": 0,
-      "noisyQuestion": 88,
-      "badQuestionLength": 4,
-      "genericQuestion": 3,
+      "noisyQuestion": 0,
+      "badQuestionLength": 0,
+      "genericQuestion": 0,
       "nonEnglishQuestion": 0,
       "insufficientOptions": 0,
       "pollutedOption": 0,
-      "badOptionLength": 614,
+      "badOptionLength": 0,
       "placeholderOption": 0,
       "nonEnglishOption": 0,
       "missingAnswerForMcq": 0,
       "answerNotInOptions": 0,
       "duplicateAnswerInOptions": 0,
       "noCoreContent": 0,
-      "nonEnglishCoreContent": 1,
-      "noUsableExercises": 230
+      "nonEnglishCoreContent": 0,
+      "noUsableExercises": 0
     }
   }
 }

@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-05-18T00:07:50.590Z",
-  "inputLessons": 900,
+  "generatedAt": "2026-05-18T00:18:43.275Z",
+  "inputLessons": 669,
   "sanitizedLessons": 669,
-  "droppedLessons": 231,
-  "droppedExercises": 710,
+  "droppedLessons": 0,
+  "droppedExercises": 0,
   "minChallengesPerNode": 10,
   "summary": {
     "great_hall": {
