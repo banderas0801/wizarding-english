@@ -1,13 +1,14 @@
 import { lazy, Suspense } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { CurriculumProvider } from './contexts/CurriculumContext'
+import { AppShell } from './components/common/AppShell'
 
-// ── Critical path — loaded eagerly (first paint) ──────────────────────────────
+// ── Critical path — eager ─────────────────────────────────────────────────────
 import WorldMap from './pages/WorldMap'
 import StageSession from './pages/StageSession'
 import Portal from './pages/Portal'
 
-// ── Everything else — lazy loaded ─────────────────────────────────────────────
+// ── Lazy loaded ───────────────────────────────────────────────────────────────
 const LanguageSelection      = lazy(() => import('./pages/LanguageSelection'))
 const SortingCeremony        = lazy(() => import('./pages/SortingCeremony'))
 const HogwartsMapEnhanced    = lazy(() => import('./pages/HogwartsMap_Enhanced'))
@@ -51,14 +52,10 @@ const PensieveMemory         = lazy(() => import('./pages/PensieveMemory'))
 const RoomOfRequirement      = lazy(() => import('./pages/RoomOfRequirement'))
 const Profile                = lazy(() => import('./pages/Profile'))
 
-// ── Loading fallback ──────────────────────────────────────────────────────────
 function PageLoader() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-surface">
-      <div className="text-center">
-        <span className="material-symbols-outlined text-5xl text-primary animate-pulse block">auto_fix_high</span>
-        <p className="text-on-surface-variant mt-3 text-sm">Đang tải...</p>
-      </div>
+    <div className="min-h-screen flex items-center justify-center" style={{ background: 'transparent' }}>
+      <span className="material-symbols-outlined text-5xl animate-pulse" style={{ color: '#d4af37' }}>auto_fix_high</span>
     </div>
   )
 }
@@ -66,78 +63,58 @@ function PageLoader() {
 export default function App() {
   return (
     <CurriculumProvider>
-      <div
-        className="relative mx-auto overflow-y-auto overflow-x-hidden bg-black max-w-[430px]"
-        style={{ minHeight: '100dvh', boxShadow: '0 0 40px rgba(0,0,0,0.3)' }}
-      >
+      <AppShell>
         <Suspense fallback={<PageLoader />}>
           <Routes>
-            {/* Entry */}
-            <Route path="/portal" element={<Portal />} />
-
-            {/* Core flow — eagerly loaded */}
-            <Route path="/" element={<WorldMap />} />
-            <Route path="/map" element={<WorldMap />} />
-            <Route path="/stage" element={<StageSession />} />
-
-            {/* Onboarding */}
+            <Route path="/portal"          element={<Portal />} />
+            <Route path="/"                element={<WorldMap />} />
+            <Route path="/map"             element={<WorldMap />} />
+            <Route path="/stage"           element={<StageSession />} />
             <Route path="/select-language" element={<LanguageSelection />} />
-            <Route path="/sorting" element={<SortingCeremony />} />
-
-            {/* Map & locations */}
-            <Route path="/hogwarts-map" element={<HogwartsMapEnhanced />} />
-            <Route path="/location/:name" element={<LocationDetail />} />
+            <Route path="/sorting"         element={<SortingCeremony />} />
+            <Route path="/hogwarts-map"    element={<HogwartsMapEnhanced />} />
+            <Route path="/location/:name"  element={<LocationDetail />} />
             <Route path="/location/hospital" element={<HospitalWing />} />
-
-            {/* Learning */}
-            <Route path="/lesson/evan" element={<LessonEvan />} />
-            <Route path="/curriculum" element={<CurriculumCenterEnhanced />} />
-
-            {/* Quests */}
+            <Route path="/lesson/evan"     element={<LessonEvan />} />
+            <Route path="/curriculum"      element={<CurriculumCenterEnhanced />} />
             <Route path="/quest/y4-dragon" element={<DragonQuest />} />
             <Route path="/quest/1-daily-warm-ups-reading-grade-1-p100" element={<SentenceStructureQuest />} />
             <Route path="/quest/1-daily-warm-ups-reading-grade-1-p101" element={<MidnightDuelQuest />} />
-            <Route path="/quest/potion" element={<PotionBrewing />} />
-            <Route path="/quest/seeker" element={<SeekerChallenge />} />
-            <Route path="/quest/sphinx" element={<SphinxRiddle />} />
-            <Route path="/quest/dragon" element={<DragonDuel />} />
-            <Route path="/quest/patronus" element={<PatronusCharm />} />
+            <Route path="/quest/potion"    element={<PotionBrewing />} />
+            <Route path="/quest/seeker"    element={<SeekerChallenge />} />
+            <Route path="/quest/sphinx"    element={<SphinxRiddle />} />
+            <Route path="/quest/dragon"    element={<DragonDuel />} />
+            <Route path="/quest/patronus"  element={<PatronusCharm />} />
             <Route path="/quest/transfiguration" element={<Transfiguration />} />
-            <Route path="/quest/maze" element={<MazeRiddle />} />
+            <Route path="/quest/maze"      element={<MazeRiddle />} />
             <Route path="/quest/quidditch-final" element={<QuidditchFinal />} />
-            <Route path="/quest/chamber" element={<ChamberOfSecrets />} />
-            <Route path="/quest/pensieve" element={<PensieveMemory />} />
+            <Route path="/quest/chamber"   element={<ChamberOfSecrets />} />
+            <Route path="/quest/pensieve"  element={<PensieveMemory />} />
             <Route path="/quest/room-of-requirement" element={<RoomOfRequirement />} />
-            <Route path="/quest/:id" element={<QuestDetail />} />
-
-            {/* Lessons */}
+            <Route path="/quest/:id"       element={<QuestDetail />} />
             <Route path="/lesson/creatures" element={<CareOfMagicalCreatures />} />
             <Route path="/lesson/astronomy" element={<AstronomyClass />} />
             <Route path="/lesson/herbology" element={<HerbologyClass />} />
-            <Route path="/lesson/boggart" element={<BoggartClass />} />
+            <Route path="/lesson/boggart"  element={<BoggartClass />} />
             <Route path="/lesson/arithmancy" element={<ArithmancyClass />} />
-            <Route path="/lesson/flying" element={<FlyingClass />} />
+            <Route path="/lesson/flying"   element={<FlyingClass />} />
             <Route path="/lesson/levitation" element={<LevitationClass />} />
-
-            {/* Events */}
             <Route path="/event/halloween" element={<HalloweenFeast />} />
-
-            {/* Meta */}
-            <Route path="/library" element={<HistoryOfMagic />} />
-            <Route path="/combat" element={<CombatArena />} />
-            <Route path="/inventory" element={<Inventory />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/shop" element={<Shop />} />
-            <Route path="/equipment/:id" element={<EquipmentDetail />} />
-            <Route path="/daily-quests" element={<DailyQuests />} />
-            <Route path="/titles" element={<Titles />} />
-            <Route path="/leaderboard" element={<Leaderboard />} />
-            <Route path="/inbox" element={<Inbox />} />
-            <Route path="/parent-portal" element={<ParentDashboard />} />
-            <Route path="/victory" element={<Victory />} />
+            <Route path="/library"         element={<HistoryOfMagic />} />
+            <Route path="/combat"          element={<CombatArena />} />
+            <Route path="/inventory"       element={<Inventory />} />
+            <Route path="/profile"         element={<Profile />} />
+            <Route path="/shop"            element={<Shop />} />
+            <Route path="/equipment/:id"   element={<EquipmentDetail />} />
+            <Route path="/daily-quests"    element={<DailyQuests />} />
+            <Route path="/titles"          element={<Titles />} />
+            <Route path="/leaderboard"     element={<Leaderboard />} />
+            <Route path="/inbox"           element={<Inbox />} />
+            <Route path="/parent-portal"   element={<ParentDashboard />} />
+            <Route path="/victory"         element={<Victory />} />
           </Routes>
         </Suspense>
-      </div>
+      </AppShell>
     </CurriculumProvider>
   )
 }

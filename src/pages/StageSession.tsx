@@ -276,7 +276,7 @@ export default function StageSession() {
   const [searchParams] = useSearchParams();
   const unitId = searchParams.get('unitId');
   const { curriculum, loading } = useCurriculum();
-  const { addXp, addGold } = useGameStore();
+  const { addXp, addGold, recordUnitCompletion } = useGameStore();
 
   // Find unit
   const unitData = useMemo(() => {
@@ -309,8 +309,12 @@ export default function StageSession() {
       const xp = correct * 10 + (stars === 3 ? 20 : stars === 2 ? 10 : 0);
       addXp(xp);
       addGold(correct * 5);
+      if (unitId) {
+        const pctScore = Math.round((correct / SESSION_SIZE) * 100);
+        recordUnitCompletion(unitId, pctScore, stars);
+      }
     }
-  }, [phase, correct, hearts, addXp, addGold]);
+  }, [phase, correct, hearts, addXp, addGold, recordUnitCompletion, unitId]);
 
   const handleContinue = useCallback((wasCorrect: boolean) => {
     if (!wasCorrect) {
