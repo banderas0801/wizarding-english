@@ -1,0 +1,231 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&amp;family=Hanken+Grotesk:wght@400;600;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<style>.material-symbols-outlined {
+    font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 48
+    }
+.deckle-edge {
+    clip-path: polygon(0% 0%, 100% 0%, 100% 95%, 98% 97%, 95% 94%, 92% 98%, 88% 95%, 85% 99%, 80% 94%, 75% 98%, 70% 95%, 65% 99%, 60% 94%, 55% 98%, 50% 95%, 45% 99%, 40% 94%, 35% 98%, 30% 95%, 25% 99%, 20% 94%, 15% 98%, 10% 95%, 5% 99%, 0% 94%)
+    }
+.parchment-texture {
+    background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuAUflphNIbNKDWmtH61vYHcVMW1FB0NvaMpDRlXB8B06ZrD8VclZE7MdmhX3rgmj9Le9-Z4YhenzqfiuhytFew9Jc8pETMlXHWQxteKvO1NS57-BGwrXEgiorIGV-tp4MAtAbEFLRiF6EUyFyZ1sFZkH_sLX6loctwsU5JCoyT2LXJo6QVHUysbjW843JvKFua25bU7Lk-7tbvT9Dd1FrfQmZxjgnW1B1XRxWyMyqGZPpTBMmjcS2B9-PCS2F5TGrAf9mkKj1z6TBg)
+    }
+.gold-shimmer {
+    background: linear-gradient(135deg, #D4AF37 0%, #F1D592 50%, #D4AF37 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent
+    }
+.magic-glow-red {
+    box-shadow: 0 0 20px rgba(135, 31, 28, 0.4)
+    }
+.magic-glow-green {
+    box-shadow: 0 0 20px rgba(35, 79, 50, 0.4)
+    }
+.magic-glow-blue {
+    box-shadow: 0 0 20px rgba(58, 69, 109, 0.4)
+    }
+.magic-glow-yellow {
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.4)
+    }</style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "background": "#fff8f7",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-container": "#96a1ce",
+                        "tertiary-container": "#2c375e",
+                        "on-primary-fixed-variant": "#871f1c",
+                        "on-secondary-container": "#416e4d",
+                        "on-tertiary-fixed": "#0d193f",
+                        "tertiary": "#162147",
+                        "secondary": "#3b6848",
+                        "on-tertiary": "#ffffff",
+                        "outline-variant": "#dfbfbc",
+                        "on-error": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "surface-container": "#ffe9e8",
+                        "primary-fixed": "#ffdad6",
+                        "surface-container-low": "#fff0f0",
+                        "inverse-on-surface": "#ffedec",
+                        "surface-dim": "#ead5d5",
+                        "surface": "#fff8f7",
+                        "secondary-fixed": "#bdefc6",
+                        "surface-tint": "#a83730",
+                        "tertiary-fixed-dim": "#bac5f4",
+                        "primary-container": "#741010",
+                        "on-surface-variant": "#57413f",
+                        "on-secondary-fixed-variant": "#234f32",
+                        "on-primary-container": "#ff7b6f",
+                        "outline": "#8b716e",
+                        "on-secondary-fixed": "#00210d",
+                        "inverse-surface": "#3a2d2d",
+                        "primary": "#510003",
+                        "inverse-primary": "#ffb4ab",
+                        "error": "#ba1a1a",
+                        "surface-bright": "#fff8f7",
+                        "on-surface": "#241919",
+                        "on-background": "#241919",
+                        "secondary-container": "#bdefc6",
+                        "on-tertiary-fixed-variant": "#3a456d",
+                        "surface-container-highest": "#f3dedd",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-fixed": "#410002",
+                        "on-error-container": "#93000a",
+                        "surface-container-high": "#f9e3e3",
+                        "on-primary": "#ffffff",
+                        "secondary-fixed-dim": "#a1d2ab",
+                        "surface-variant": "#f3dedd",
+                        "primary-fixed-dim": "#ffb4ab",
+                        "tertiary-fixed": "#dce1ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "container-padding-mobile": "24px",
+                        "container-padding-desktop": "48px",
+                        "unit": "8px",
+                        "element-gap": "12px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Hanken Grotesk"],
+                        "caption": ["Hanken Grotesk"],
+                        "display-lg": ["Libre Caslon Text"],
+                        "headline-sm": ["Libre Caslon Text"],
+                        "display-lg-mobile": ["Libre Caslon Text"],
+                        "headline-md": ["Libre Caslon Text"],
+                        "body-md": ["Hanken Grotesk"],
+                        "body-lg": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "caption": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                        "display-lg": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "display-lg-mobile": ["32px", {"lineHeight": "38px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-inverse-surface text-on-surface-variant min-h-screen selection:bg-primary-container selection:text-on-primary-container">
+<!-- Top Navigation Bar -->
+<header class="flex justify-between items-center w-full px-container-padding-mobile md:px-container-padding-desktop h-16 bg-surface dark:bg-surface-container shadow-[0_4px_10px_rgba(60,47,47,0.1)] sticky top-0 z-50 rounded-b-xl">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary" data-icon="close">close</span>
+</div>
+<h1 class="font-headline-md-mobile text-headline-md-mobile md:font-headline-md md:text-headline-md italic font-bold text-primary dark:text-on-primary-container">Arcane Lexicon</h1>
+<div class="w-10 h-10 rounded-full border-2 border-primary overflow-hidden shadow-sm">
+<img alt="Wizard Portrait" class="w-full h-full object-cover" data-alt="A portrait of a young wizard with wise eyes and a subtle magical glow reflecting off their face. The image is styled with a classical oil painting aesthetic, featuring warm candle-lit shadows and rich textures. The color palette is dominated by deep burgundies and soft parchment tones, creating a scholarly and mysterious atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1fWPQxsIjm4trLhSzmcL83TZBr8gNMbE2Z22w_kDm4NNGNflD-Ze-v6fnl9q92z0MrgxD_4e5XvaHJ71BxR3TdFbE8_Q9ACRWt-Wlz3MfN4JWql1-0VKl7pk2Ppz6OV-k4Y52n9yl-QZEV1FzIpySSOwhBZFkCDAJ2znT_wmxkFz9ixj-jKpNzVos3WV0m4mmefsN4EPxkQ7DxtJ_GMArPc6YQXYK-r3TL6XLNnsOMgzqAANPM0UfJr7KzWPK5MUXNuRJSiFuu9A">
+</div>
+</header>
+<main class="relative flex flex-col items-center justify-center min-h-[calc(100vh-64px)] px-container-padding-mobile py-8 overflow-hidden">
+<!-- Enchanted Atmosphere Background -->
+<div class="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+<div class="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 blur-[120px] rounded-full"></div>
+<div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-tertiary/20 blur-[120px] rounded-full"></div>
+<!-- Magical Particles (Simulated) -->
+<div class="absolute inset-0 opacity-30">
+<div class="absolute top-10 left-10 w-1 h-1 bg-[#D4AF37] rounded-full shadow-[0_0_10px_#D4AF37]"></div>
+<div class="absolute top-40 right-20 w-1.5 h-1.5 bg-[#D4AF37] rounded-full shadow-[0_0_12px_#D4AF37]"></div>
+<div class="absolute bottom-20 left-1/2 w-1 h-1 bg-[#D4AF37] rounded-full shadow-[0_0_8px_#D4AF37]"></div>
+</div>
+</div>
+<!-- Central Sorting Hat Visualization -->
+<div class="relative z-10 w-full max-w-sm aspect-square flex items-center justify-center mb-8">
+<div class="relative w-64 h-64 md:w-80 md:h-80 group">
+<img alt="The Sorting Hat" class="w-full h-full drop-shadow-[0_10px_30px_rgba(0,0,0,0.8)] object-cover rounded-lg" data-alt="A highly detailed, cinematic close-up of the Sorting Hat from Harry Potter. The hat is made of ancient, patched, and weathered brown leather with deep folds that form a subtle, grumpy facial expression. It sits atop a simple wooden stool in a dimly lit, atmospheric Great Hall with magical dust motes dancing in a single beam of light. Photorealistic, rich textures, moody lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCADV4pT4c0-1LlR9_1xB17pwNJU-XFKfOBG0DjhDb5DHdkZbgfPrRtMlZDqt15pY0880NhxJRvGtvZG7YeprfZtx7_6RxOG2vT5rf254FaUlZh2-ztmo8e7dGyu9kun_B7JKEOdk7SPFUOZFMltlQbNl8JIsoN0NBtpnoFhNYbv1SfEegPKwhvVDL-0aLULv4BByqEsKIlT9Eparww47p61WW6DcDkJoSfBIcC_GVw07RjSNkeLjaRh5J0lP_bPPEx0m0jQhmVDx0">
+<!-- Inner Depth Glow -->
+<div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent rounded-full opacity-50"></div>
+</div>
+</div>
+<!-- Question Parchment Card -->
+<section class="relative z-20 w-full max-w-2xl bg-surface parchment-texture deckle-edge p-8 md:p-12 shadow-[0_10px_40px_rgba(0,0,0,0.3)] border border-outline-variant/30">
+<div class="flex flex-col items-center text-center">
+<span class="font-label-md text-label-md text-primary tracking-widest uppercase mb-4 opacity-70">The First Inquiry</span>
+<h2 class="font-display-lg-mobile text-display-lg-mobile md:font-display-lg md:text-display-lg text-on-surface mb-6 leading-tight">
+                    In the face of an ancient mystery, how would your soul choose to proceed?
+                </h2>
+<div class="w-16 h-px bg-outline-variant mb-8"></div>
+</div>
+<!-- Choice Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Option: Brave -->
+<button class="group relative flex items-center gap-4 p-5 rounded-xl border border-outline-variant/50 bg-surface-container-lowest hover:bg-surface-container-low transition-all duration-300 magic-glow-red active:scale-95">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-on-primary-fixed-variant flex items-center justify-center shadow-[inset_0_2px_4px_rgba(0,0,0,0.2)]">
+<span class="material-symbols-outlined text-white" data-icon="swords" style="font-variation-settings: &quot;FILL&quot; 1;">swords</span>
+</div>
+<div class="text-left">
+<span class="block font-label-md text-label-md text-on-primary-fixed-variant mb-0.5">Brave</span>
+<span class="block font-body-md text-body-md text-on-surface-variant">Step forward to confront the unknown directly.</span>
+</div>
+</button>
+<!-- Option: Ambitious -->
+<button class="group relative flex items-center gap-4 p-5 rounded-xl border border-outline-variant/50 bg-surface-container-lowest hover:bg-surface-container-low transition-all duration-300 magic-glow-green active:scale-95">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-on-secondary-fixed-variant flex items-center justify-center shadow-[inset_0_2px_4px_rgba(0,0,0,0.2)]">
+<span class="material-symbols-outlined text-white" data-icon="shield" style="font-variation-settings: &quot;FILL&quot; 1;">shield</span>
+</div>
+<div class="text-left">
+<span class="block font-label-md text-label-md text-on-secondary-fixed-variant mb-0.5">Ambitious</span>
+<span class="block font-body-md text-body-md text-on-surface-variant">Harness the power within the mystery for greatness.</span>
+</div>
+</button>
+<!-- Option: Wise -->
+<button class="group relative flex items-center gap-4 p-5 rounded-xl border border-outline-variant/50 bg-surface-container-lowest hover:bg-surface-container-low transition-all duration-300 magic-glow-blue active:scale-95">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-on-tertiary-fixed-variant flex items-center justify-center shadow-[inset_0_2px_4px_rgba(0,0,0,0.2)]">
+<span class="material-symbols-outlined text-white" data-icon="menu_book" style="font-variation-settings: &quot;FILL&quot; 1;">menu_book</span>
+</div>
+<div class="text-left">
+<span class="block font-label-md text-label-md text-on-tertiary-fixed-variant mb-0.5">Wise</span>
+<span class="block font-body-md text-body-md text-on-surface-variant">Analyze the symbols and seek the hidden truth.</span>
+</div>
+</button>
+<!-- Option: Loyal -->
+<button class="group relative flex items-center gap-4 p-5 rounded-xl border border-outline-variant/50 bg-surface-container-lowest hover:bg-surface-container-low transition-all duration-300 magic-glow-yellow active:scale-95">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-[#D4AF37] flex items-center justify-center shadow-[inset_0_2px_4px_rgba(0,0,0,0.2)]">
+<span class="material-symbols-outlined text-white" data-icon="groups" style="font-variation-settings: &quot;FILL&quot; 1;">groups</span>
+</div>
+<div class="text-left">
+<span class="block font-label-md text-label-md text-[#510003] mb-0.5">Loyal</span>
+<span class="block font-body-md text-body-md text-on-surface-variant">Gather your allies to face the path together.</span>
+</div>
+</button>
+</div>
+</section>
+<!-- Progress Indicator -->
+<div class="mt-12 flex items-center gap-4">
+<div class="w-3 h-3 rounded-full bg-primary shadow-[0_0_8px_#510003]"></div>
+<div class="w-32 h-1.5 bg-outline-variant/30 rounded-full overflow-hidden">
+<div class="w-1/4 h-full bg-gradient-to-r from-primary to-primary-container relative">
+<div class="absolute inset-0 gold-shimmer opacity-50"></div>
+</div>
+</div>
+<span class="font-label-md text-label-md text-surface-container-highest">Question 1 of 12</span>
+</div>
+</main>
+<!-- Bottom Navigation Shell (Suppressed as per linear/focused journey mandate, but structure placeholder for UX flow) -->
+<footer class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-4 pt-2 bg-surface-container-low border-t border-outline-variant/30 hidden">
+<!-- Suppressed for focused Sorting Experience -->
+</footer>
+
+
+</body></html>

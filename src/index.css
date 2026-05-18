@@ -1,0 +1,189 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400;1,700&family=Hanken+Grotesk:wght@400;600;700&family=Cinzel:wght@400;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =============================================
+   STITCH DESIGN SYSTEM - CUSTOM CSS CLASSES
+   Copied verbatim from Stitch HTML export
+   ============================================= */
+
+.parchment-texture {
+  background: linear-gradient(to bottom right, #fff8f7, #fdf6f5);
+  /* Removed heavy base64 image URL to fix lag on mid-range mobile devices */
+}
+
+.deckle-edge {
+  /* Removed heavy SVG mask for performance. Replaced with simple border */
+  border-bottom: 2px dashed rgba(212, 197, 161, 0.5);
+}
+
+.gold-foil {
+  background: linear-gradient(135deg, #d4af37 0%, #f9e3e3 50%, #d4af37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.inner-depth {
+  box-shadow: inset 0 2px 4px rgba(60, 47, 47, 0.15);
+}
+
+.wax-seal {
+  box-shadow: 0 4px 0 #3a0001, 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.wax-seal:active {
+  transform: translateY(4px);
+  box-shadow: 0 0 0 #3a0001, 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.magical-glow {
+  box-shadow: 0 0 15px #d4af37;
+}
+
+/* Mobile-first body height */
+body {
+  min-height: max(884px, 100dvh);
+  font-family: 'Hanken Grotesk', sans-serif;
+}
+
+/* Material Symbols */
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+
+.parchment-card {
+  background: linear-gradient(135deg, #fffcf5 0%, #fdf5e6 100%);
+  border: 1px solid #d4c5a1;
+  box-shadow: 0 4px 15px rgba(60, 47, 47, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.parchment-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='4' viewBox='0 0 100 4' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 4L5 0L10 4L15 0L20 4L25 0L30 4L35 0L40 4L45 0L50 4L55 0L60 4L65 0L70 4L75 0L80 4L85 0L90 4L95 0L100 4' fill='%23d4c5a1'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+}
+
+.gold-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #D4AF37, transparent);
+}
+
+.gold-foil-text {
+  background: linear-gradient(135deg, #D4AF37 0%, #F1D382 50%, #D4AF37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gold-shimmer {
+  background: linear-gradient(135deg, #D4AF37 0%, #F1D592 50%, #D4AF37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.magic-glow-red {
+  box-shadow: 0 0 20px rgba(135, 31, 28, 0.4);
+}
+.magic-glow-green {
+  box-shadow: 0 0 20px rgba(35, 79, 50, 0.4);
+}
+.magic-glow-blue {
+  box-shadow: 0 0 20px rgba(58, 69, 109, 0.4);
+}
+.magic-glow-yellow {
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+}
+.glow-gold {
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+}
+.glow-gold:hover {
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+}
+.inner-depth {
+  box-shadow: inset 0 2px 4px rgba(60, 47, 47, 0.15);
+}
+.floating-candle {
+  filter: drop-shadow(0 0 8px #D4AF37);
+}
+.parchment-bg {
+  background-color: #fff8f7;
+  background-image: radial-gradient(#dfbfbc 0.5px, transparent 0.5px);
+  background-size: 24px 24px;
+  position: relative;
+}
+.parchment-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, rgba(223, 191, 188, 0.1) 1px, transparent 1px),
+              linear-gradient(to bottom, rgba(223, 191, 188, 0.1) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+}
+.leather-card {
+  background: linear-gradient(145deg, #3a2d2d, #241919);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3), inset 0 1px 1px rgba(255,255,255,0.1);
+}
+.wax-seal-shadow {
+  box-shadow: 0 4px 8px rgba(65, 0, 2, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.3);
+}
+.current-glow {
+  box-shadow: 0 0 25px rgba(150, 161, 206, 0.6);
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+.animate-shimmer {
+  animation: shimmer 2s infinite;
+}
+
+.gold-foil-border {
+  border: 2px solid transparent;
+  background: linear-gradient(#fff8f7, #fff8f7) padding-box,
+              linear-gradient(45deg, #D4AF37, #F9E4B7, #D4AF37) border-box;
+}
+
+.magic-particles {
+  position: absolute;
+  pointer-events: none;
+  background: radial-gradient(circle, #D4AF37 10%, transparent 70%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  opacity: 0.6;
+}
+
+.timeline-connector::after {
+  content: '';
+  position: absolute;
+  left: 2rem;
+  top: 4rem;
+  bottom: 0;
+  width: 2px;
+  background: rgba(139, 113, 110, 0.2);
+  z-index: 0;
+}

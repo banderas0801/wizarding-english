@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+dist-ssr/
+
+# Vite temp files
+vite.config.ts.timestamp-*
+*.local
+
+# Env files
+.env
+.env.*
+!.env.example
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Large data files — generate locally with: node build-lessons-manifest.js
+public/lessons-manifest.json
+
+# Editor
+.vscode/
+.idea/

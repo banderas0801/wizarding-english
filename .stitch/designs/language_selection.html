@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400;1,700&amp;family=Hanken+Grotesk:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-fixed-variant": "#3a456d",
+                    "on-error": "#ffffff",
+                    "surface-tint": "#a83730",
+                    "on-secondary-fixed": "#00210d",
+                    "on-primary-fixed-variant": "#871f1c",
+                    "surface": "#fff8f7",
+                    "primary-fixed-dim": "#ffb4ab",
+                    "error": "#ba1a1a",
+                    "primary": "#510003",
+                    "tertiary": "#162147",
+                    "on-secondary-container": "#416e4d",
+                    "on-tertiary": "#ffffff",
+                    "on-surface-variant": "#57413f",
+                    "on-primary": "#ffffff",
+                    "on-tertiary-container": "#96a1ce",
+                    "surface-variant": "#f3dedd",
+                    "surface-container-high": "#f9e3e3",
+                    "surface-container-low": "#fff0f0",
+                    "error-container": "#ffdad6",
+                    "tertiary-fixed-dim": "#bac5f4",
+                    "outline-variant": "#dfbfbc",
+                    "surface-container": "#ffe9e8",
+                    "inverse-primary": "#ffb4ab",
+                    "background": "#fff8f7",
+                    "on-error-container": "#93000a",
+                    "secondary": "#3b6848",
+                    "on-background": "#241919",
+                    "tertiary-container": "#2c375e",
+                    "primary-container": "#741010",
+                    "primary-fixed": "#ffdad6",
+                    "on-primary-container": "#ff7b6f",
+                    "inverse-on-surface": "#ffedec",
+                    "surface-container-highest": "#f3dedd",
+                    "secondary-fixed": "#bdefc6",
+                    "on-secondary-fixed-variant": "#234f32",
+                    "surface-bright": "#fff8f7",
+                    "inverse-surface": "#3a2d2d",
+                    "on-tertiary-fixed": "#0d193f",
+                    "tertiary-fixed": "#dce1ff",
+                    "secondary-container": "#bdefc6",
+                    "outline": "#8b716e",
+                    "on-primary-fixed": "#410002",
+                    "surface-dim": "#ead5d5",
+                    "secondary-fixed-dim": "#a1d2ab",
+                    "on-surface": "#241919",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "16px",
+                    "container-padding-mobile": "24px",
+                    "unit": "8px",
+                    "element-gap": "12px",
+                    "container-padding-desktop": "48px"
+            },
+            "fontFamily": {
+                    "display-lg": ["Libre Caslon Text"],
+                    "headline-sm": ["Libre Caslon Text"],
+                    "headline-md": ["Libre Caslon Text"],
+                    "display-lg-mobile": ["Libre Caslon Text"],
+                    "body-lg": ["Hanken Grotesk"],
+                    "caption": ["Hanken Grotesk"],
+                    "body-md": ["Hanken Grotesk"],
+                    "label-md": ["Hanken Grotesk"]
+            },
+            "fontSize": {
+                    "display-lg": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "display-lg-mobile": ["32px", {"lineHeight": "38px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "caption": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>.material-symbols-outlined {
+    font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24
+    }
+.deckle-edge {
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='20'%3E%3Cpath d='M0 20 L20 12 L40 18 L60 10 L80 16 L100 8 L120 14 L140 6 L160 12 L180 4 L200 10 L220 2 L240 8 L260 0 L280 6 L300 0 L320 4 L340 0 L360 2 L380 0 L400 0 V20 H0 Z' fill='black'/%3E%3C/svg%3E");
+    mask-position: bottom;
+    mask-repeat: repeat-x
+    }
+.parchment-texture {
+    background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuDDRfGjHNvuqAs-IF2DGzknxdna41VpQ9I0qVQ4t0znfFjvBLVWTjdrgcvUjhjjEbcyJC5m1CYP1Eiyxeb1CfSWadaWiS3g6CTNDdG8E3WdwEcLLaF21zo56D-dUzAuzUPWlPE3myvScCvR3VlNX2iIU-9FkdAzjyaAciQLHJnf2my5LwzhWpRjajc6XKBVfeaAIsZ3OJv3F-kJ2Vb4uaIusODO1c_5xXg_yErDse8xjM8u8FLQ_zNMt6AEa_yYlybgLiysAf_NcE4);
+    background-blend-mode: multiply
+    }
+.gold-glow:hover {
+    box-shadow: 0 0 25px rgba(212, 175, 55, 0.4);
+    transform: translatey(-4px)
+    }</style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md overflow-hidden">
+<!-- TopAppBar Section -->
+<header class="flex justify-between items-center w-full px-container-padding-mobile md:px-container-padding-desktop h-16 bg-surface dark:bg-surface-container shadow-[0_4px_10px_rgba(60,47,47,0.1)] z-50 fixed top-0 rounded-b-xl">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed cursor-pointer">menu</span>
+<h1 class="font-headline-md-mobile text-headline-md-mobile md:font-headline-md md:text-headline-md italic font-bold text-primary dark:text-on-primary-container">Arcane Lexicon</h1>
+</div>
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-container">
+<img alt="Wizard Portrait" data-alt="A highly detailed, stylized portrait of an elderly wizard with a long silver beard and wisdom-etched features. He is wearing deep burgundy velvet robes adorned with delicate gold foil celestial patterns. The lighting is warm and dramatic, as if from a nearby hearth, creating deep shadows and highlights that emphasize the parchment-like texture of his skin. The background is a blurred study of ancient leather-bound books in a scholarly sanctum." src="https://lh3.googleusercontent.com/aida-public/AB6AXuADS5GSodKlAVd8BhuiuF8tC5ixUuIhVMGllHaePNK5qMXn6kORwUCZHxPUM19Op1Zd-cSNRCZLiUugRCJDqAf7MEGIhUQMkQiVjf-P0OTQs5mO3-lg75B4gcYVDiUSaP70aHBTh39J-apPyrm4Zv6LAj_DLWdPGHppxnExWd26QdY_qGzQJ3XbWMwX58nkKgEiB52U5E9oFeuf9BY-u48aqDnu91lTq1XvVuuEUwG4kS1FlVxs-GoUoWachIMtUystj3kqzXx1ies"/>
+</div>
+</header>
+<!-- Main Content: Language Selection -->
+<main class="relative flex-grow flex flex-col items-center justify-center mt-16 px-container-padding-mobile">
+<!-- Background Layer -->
+<div class="absolute inset-0 z-0">
+<div class="absolute inset-0 bg-black/60 z-10"></div>
+<img class="w-full h-full object-cover" data-alt="A vast, mystical ancient library at midnight with towering oak bookshelves reaching into the shadows. Hundreds of glowing wax candles float ethereally in the air, casting flickering warm light on leather spines and scattered parchment scrolls. The atmosphere is thick with a sense of hidden knowledge and magic, using a color palette of deep umber, burnt sienna, and sparkling gold dust particles. The lighting is atmospheric and low-key, evoking a scholarly yet mysterious mood." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxoYSAlfkQPj86KZns356pMI0ZQQUwUEECzqvG1pvOBKfrqobGuK8bcsD8wavwy1SxIM9_0V7UeIoC8vBByMEvI2P486UUW3mFi3Y224wVY_0SV_dtK11iUgPT2IMefx2ysMFGSy3gsB6aEnphet2xSmpM5y6ggXEeh1-Jk-OTG6nZL35dH6aoDwqpAk-vldrVQPZG5NBYFD0sOABG_xf3MArVxxSwA6jGkRoE_m22fDd6HF03DQAB4m5MrSca4Vy-VTKQFF_9fGY"/>
+</div>
+<!-- Content Canvas -->
+<div class="relative z-20 w-full max-w-4xl text-center flex flex-col items-center">
+<!-- Welcome Header -->
+<div class="mb-12 space-y-4">
+<h2 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-surface-container-lowest drop-shadow-md">
+                    Choose your language of magic
+                </h2>
+<h3 class="font-headline-sm text-headline-sm italic text-secondary-fixed opacity-90">
+                    Chọn ngôn ngữ pháp thuật của bạn
+                </h3>
+</div>
+<!-- Language Cards Bento-ish Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
+<!-- English Card -->
+<button class="group relative flex flex-col items-center p-unit pt-10 pb-12 bg-surface-container-low parchment-texture rounded-xl border border-outline-variant/30 gold-glow transition-all duration-300 overflow-hidden deckle-edge">
+<div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-primary via-primary-container to-primary"></div>
+<!-- Decorative Ornate Corners -->
+<div class="absolute top-4 left-4 text-primary opacity-20"><span class="material-symbols-outlined text-4xl">auto_awesome</span></div>
+<div class="absolute top-4 right-4 text-primary opacity-20"><span class="material-symbols-outlined text-4xl">auto_awesome</span></div>
+<div class="mb-6 flex items-center justify-center w-20 h-20 rounded-full bg-primary shadow-[inset_0_2px_4px_rgba(0,0,0,0.4)] border-2 border-[#D4AF37]">
+<span class="material-symbols-outlined text-white text-4xl" data-weight="fill" style="font-variation-settings: 'FILL' 1;">history_edu</span>
+</div>
+<h4 class="font-headline-md text-headline-md text-primary mb-2">English</h4>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">Ancient Texts &amp; Lore</p>
+<div class="mt-8 flex items-center gap-2 text-primary font-bold group-hover:scale-110 transition-transform">
+<span class="font-body-lg">Begin Journey</span>
+<span class="material-symbols-outlined">arrow_forward</span>
+</div>
+</button>
+<!-- Vietnamese Card -->
+<button class="group relative flex flex-col items-center p-unit pt-10 pb-12 bg-surface-container-low parchment-texture rounded-xl border border-outline-variant/30 gold-glow transition-all duration-300 overflow-hidden deckle-edge">
+<div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-secondary via-secondary-container to-secondary"></div>
+<!-- Decorative Ornate Corners -->
+<div class="absolute top-4 left-4 text-secondary opacity-20"><span class="material-symbols-outlined text-4xl">auto_stories</span></div>
+<div class="absolute top-4 right-4 text-secondary opacity-20"><span class="material-symbols-outlined text-4xl">auto_stories</span></div>
+<div class="mb-6 flex items-center justify-center w-20 h-20 rounded-full bg-primary shadow-[inset_0_2px_4px_rgba(0,0,0,0.4)] border-2 border-[#D4AF37]">
+<span class="material-symbols-outlined text-white text-4xl" data-weight="fill" style="font-variation-settings: 'FILL' 1;">menu_book</span>
+</div>
+<h4 class="font-headline-md text-headline-md text-primary mb-2">Tiếng Việt</h4>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">Cổ Thư &amp; Bí Thuật</p>
+<div class="mt-8 flex items-center gap-2 text-primary font-bold group-hover:scale-110 transition-transform">
+<span class="font-body-lg">Bắt Đầu Hành Trình</span>
+<span class="material-symbols-outlined">arrow_forward</span>
+</div>
+</button>
+</div>
+<!-- Footer Message -->
+<div class="mt-16 flex items-center gap-3 text-surface-container-lowest/80 font-body-md">
+<span class="material-symbols-outlined text-secondary-fixed">verified</span>
+<span>Your choice will attune the lexicon to your soul.</span>
+</div>
+</div>
+</main>
+<!-- Magic Particles Layer (Simulated with Gradient and Blur) -->
+<div class="fixed inset-0 pointer-events-none z-30 overflow-hidden">
+<div class="absolute top-1/4 left-1/4 w-32 h-32 bg-secondary opacity-10 blur-3xl rounded-full"></div>
+<div class="absolute bottom-1/4 right-1/4 w-48 h-48 bg-primary-container opacity-10 blur-3xl rounded-full"></div>
+</div>
+</body></html>

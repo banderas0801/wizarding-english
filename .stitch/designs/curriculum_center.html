@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+
+<html class="light" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:wght@400;600;700&amp;family=Hanken+Grotesk:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .glow-gold {
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+        }
+        .hover\:glow-gold:hover {
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+        }
+        .parchment-texture {
+            background-color: #fff8f7;
+            background-image: radial-gradient(#dfbfbc 0.5px, transparent 0.5px);
+            background-size: 24px 24px;
+        }
+        .deckle-edge {
+            clip-path: polygon(0% 0%, 100% 0%, 100% 95%, 98% 98%, 95% 96%, 92% 99%, 88% 95%, 85% 98%, 80% 96%, 75% 100%, 70% 97%, 65% 99%, 60% 95%, 55% 98%, 50% 96%, 45% 99%, 40% 95%, 35% 98%, 30% 96%, 25% 100%, 20% 97%, 15% 99%, 10% 95%, 5% 98%, 0% 96%);
+        }
+        .wax-seal {
+            box-shadow: inset -2px -2px 4px rgba(0,0,0,0.3), 2px 2px 4px rgba(255,255,255,0.1);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed-variant": "#3a456d",
+                        "surface-bright": "#fff8f7",
+                        "tertiary-container": "#2c375e",
+                        "surface-variant": "#f3dedd",
+                        "surface-dim": "#ead5d5",
+                        "inverse-primary": "#ffb4ab",
+                        "surface-container-highest": "#f3dedd",
+                        "on-primary": "#ffffff",
+                        "on-primary-fixed": "#410002",
+                        "on-error-container": "#93000a",
+                        "outline": "#8b716e",
+                        "surface": "#fff8f7",
+                        "secondary": "#3b6848",
+                        "on-secondary-container": "#416e4d",
+                        "outline-variant": "#dfbfbc",
+                        "on-secondary-fixed-variant": "#234f32",
+                        "on-error": "#ffffff",
+                        "inverse-surface": "#3a2d2d",
+                        "tertiary-fixed": "#dce1ff",
+                        "surface-container": "#ffe9e8",
+                        "on-surface-variant": "#57413f",
+                        "on-secondary-fixed": "#00210d",
+                        "on-primary-fixed-variant": "#871f1c",
+                        "primary-fixed": "#ffdad6",
+                        "surface-container-low": "#fff0f0",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-high": "#f9e3e3",
+                        "on-surface": "#241919",
+                        "primary": "#510003",
+                        "on-tertiary-container": "#96a1ce",
+                        "error-container": "#ffdad6",
+                        "tertiary": "#162147",
+                        "error": "#ba1a1a",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed-dim": "#ffb4ab",
+                        "secondary-container": "#bdefc6",
+                        "inverse-on-surface": "#ffedec",
+                        "secondary-fixed": "#bdefc6",
+                        "primary-container": "#741010",
+                        "on-primary-container": "#ff7b6f",
+                        "background": "#fff8f7",
+                        "on-tertiary": "#ffffff",
+                        "on-background": "#241919",
+                        "tertiary-fixed-dim": "#bac5f4",
+                        "on-tertiary-fixed": "#0d193f",
+                        "surface-tint": "#a83730",
+                        "secondary-fixed-dim": "#a1d2ab"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "8px",
+                        "element-gap": "12px",
+                        "gutter": "16px",
+                        "container-padding-mobile": "24px",
+                        "container-padding-desktop": "48px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Hanken Grotesk"],
+                        "body-lg": ["Hanken Grotesk"],
+                        "headline-sm": ["Libre Caslon Text"],
+                        "headline-md": ["Libre Caslon Text"],
+                        "display-lg": ["Libre Caslon Text"],
+                        "caption": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "display-lg-mobile": ["Libre Caslon Text"]
+                    },
+                    "fontSize": {
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "display-lg": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "caption": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "display-lg-mobile": ["32px", {"lineHeight": "38px", "letterSpacing": "-0.01em", "fontWeight": "700"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-body-md parchment-texture min-h-screen pb-24">
+<header class="fixed top-0 z-50 flex justify-between items-center px-container-padding-mobile w-full bg-surface dark:bg-surface-container shadow-sm bg-[url('parchment-texture')] h-16">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full border-2 border-[#D4AF37] overflow-hidden shadow-sm">
+<img class="w-full h-full object-cover" data-alt="A portrait of a young magical student with scholarly glasses and a vintage academic robe, rendered in a realistic painterly style. The lighting is warm and candle-lit, suggesting an ancient library setting. The background is softly blurred with rows of leather-bound books. The color palette is rich with mahogany, gold, and cream tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCN4m6vdw9DH4dYTns2krO08lctLh9PV5BAFEF39pJ7mnbhreV-04-CO7HVOBlK02CGAMMiyMn-FYGIbVxcwupei5aK3L4bAIxEHTbmC0M33F579god5WXfd2LHhS2bsgKqVBoRFB3E1tDLwT7h-lLSZ4CzvMOfucIXNzJfLEF4SSSUeclw3MvCqZhpHWH-BA22KwNlkU0dR9uBbpjqsLpUfXY2rkXMmJOUdsPBxSuTKIJXUCbsNGzESukfRPufubxNZuaO8-C6lhw"/>
+</div>
+<h1 class="font-headline-md text-headline-md-mobile text-primary">Giáo Trình Evan</h1>
+</div>
+<button class="material-symbols-outlined text-primary hover:glow-gold transition-all active:scale-95 duration-300">
+            auto_fix_high
+        </button>
+</header>
+<main class="pt-20 px-container-padding-mobile max-w-4xl mx-auto">
+<section class="mb-10 text-center">
+<h2 class="font-display-lg-mobile text-display-lg-mobile text-primary mb-2">Thư Viện Pháp Thuật</h2>
+<p class="text-on-surface-variant font-body-md opacity-80">Mở kho tàng tri thức để khai phá tiềm năng ngôn ngữ của bạn.</p>
+</section>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<div class="relative group cursor-pointer bg-surface-container-high border border-outline-variant p-gutter rounded-xl deckle-edge shadow-sm hover:scale-[1.02] transition-transform duration-300">
+<div class="flex items-start gap-4">
+<div class="w-20 h-28 bg-[#510003] rounded-sm flex flex-col items-center justify-center shadow-lg relative overflow-hidden border-r-4 border-[#D4AF37]">
+<span class="material-symbols-outlined text-[#D4AF37] text-4xl mb-1">auto_stories</span>
+<div class="w-full h-1 bg-[#D4AF37] opacity-30 absolute bottom-4"></div>
+</div>
+<div class="flex-1">
+<span class="font-label-md text-secondary uppercase tracking-widest text-[10px]">Cấp độ: Nhập môn</span>
+<h3 class="font-headline-sm text-headline-sm text-primary mt-1">Ngữ Pháp Cơ Bản</h3>
+<p class="text-caption text-on-surface-variant mt-1">Nắm vững các cấu trúc câu ma thuật.</p>
+<div class="mt-4">
+<div class="flex justify-between items-end mb-1">
+<span class="font-label-md text-[10px] text-on-surface-variant">Tiến trình</span>
+<span class="font-label-md text-primary">75%</span>
+</div>
+<div class="h-1.5 w-full bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full relative" style="width: 75%;">
+<div class="absolute top-0 right-0 h-full w-4 bg-gradient-to-r from-transparent to-[#D4AF37] animate-pulse"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="relative group cursor-pointer bg-surface-container-high border border-outline-variant p-gutter rounded-xl deckle-edge shadow-sm hover:scale-[1.02] transition-transform duration-300">
+<div class="flex items-start gap-4">
+<div class="w-20 h-28 bg-[#162147] rounded-sm flex flex-col items-center justify-center shadow-lg relative overflow-hidden border-r-4 border-[#D4AF37]">
+<span class="material-symbols-outlined text-[#D4AF37] text-4xl mb-1">menu_book</span>
+<div class="w-full h-1 bg-[#D4AF37] opacity-30 absolute bottom-4"></div>
+</div>
+<div class="flex-1">
+<span class="font-label-md text-secondary uppercase tracking-widest text-[10px]">Cấp độ: Trung cấp</span>
+<h3 class="font-headline-sm text-headline-sm text-primary mt-1">Từ Vựng Huyền Bí</h3>
+<p class="text-caption text-on-surface-variant mt-1">Mở rộng kho tàng từ ngữ cổ xưa.</p>
+<div class="mt-4">
+<div class="flex justify-between items-end mb-1">
+<span class="font-label-md text-[10px] text-on-surface-variant">Tiến trình</span>
+<span class="font-label-md text-primary">42%</span>
+</div>
+<div class="h-1.5 w-full bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full relative" style="width: 42%;">
+<div class="absolute top-0 right-0 h-full w-4 bg-gradient-to-r from-transparent to-[#D4AF37] animate-pulse"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="relative group cursor-pointer bg-surface-container-high border border-outline-variant p-gutter rounded-xl deckle-edge shadow-sm hover:scale-[1.02] transition-transform duration-300">
+<div class="flex items-start gap-4">
+<div class="w-20 h-28 bg-[#3b6848] rounded-sm flex flex-col items-center justify-center shadow-lg relative overflow-hidden border-r-4 border-[#D4AF37]">
+<span class="material-symbols-outlined text-[#D4AF37] text-4xl mb-1">history_edu</span>
+<div class="w-full h-1 bg-[#D4AF37] opacity-30 absolute bottom-4"></div>
+</div>
+<div class="flex-1">
+<span class="font-label-md text-secondary uppercase tracking-widest text-[10px]">Cấp độ: Nâng cao</span>
+<h3 class="font-headline-sm text-headline-sm text-primary mt-1">Kỹ Năng Đọc Hiểu</h3>
+<p class="text-caption text-on-surface-variant mt-1">Giải mã các cổ vật văn bản.</p>
+<div class="mt-4">
+<div class="flex justify-between items-end mb-1">
+<span class="font-label-md text-[10px] text-on-surface-variant">Tiến trình</span>
+<span class="font-label-md text-primary">15%</span>
+</div>
+<div class="h-1.5 w-full bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full relative" style="width: 15%;">
+<div class="absolute top-0 right-0 h-full w-4 bg-gradient-to-r from-transparent to-[#D4AF37] animate-pulse"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="relative group cursor-pointer bg-surface-container-high border border-outline-variant p-gutter rounded-xl deckle-edge shadow-sm hover:scale-[1.02] transition-transform duration-300">
+<div class="flex items-start gap-4">
+<div class="w-20 h-28 bg-[#D4AF37] rounded-sm flex flex-col items-center justify-center shadow-lg relative overflow-hidden border-r-4 border-white">
+<span class="material-symbols-outlined text-[#510003] text-4xl mb-1">campaign</span>
+<div class="w-full h-1 bg-white opacity-40 absolute bottom-4"></div>
+</div>
+<div class="flex-1">
+<span class="font-label-md text-secondary uppercase tracking-widest text-[10px]">Cấp độ: Chuyên gia</span>
+<h3 class="font-headline-sm text-headline-sm text-primary mt-1">Giao Tiếp Quyền Năng</h3>
+<p class="text-caption text-on-surface-variant mt-1">Phát âm chuẩn xác như lời sấm truyền.</p>
+<div class="mt-4">
+<div class="flex justify-between items-end mb-1">
+<span class="font-label-md text-[10px] text-on-surface-variant">Tiến trình</span>
+<span class="font-label-md text-primary">5%</span>
+</div>
+<div class="h-1.5 w-full bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full relative" style="width: 5%;"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<section class="mt-12 bg-primary-container p-6 rounded-xl relative overflow-hidden">
+<div class="absolute top-0 right-0 opacity-10">
+<span class="material-symbols-outlined text-[120px] text-white">auto_fix_normal</span>
+</div>
+<div class="relative z-10">
+<h3 class="font-headline-md text-on-primary-container mb-2">Thử Thách Tuần Này</h3>
+<p class="font-body-md text-on-primary-container opacity-90 mb-4">Hoàn thành 3 bài học Ngữ pháp để nhận được 'Huy Hiệu Nhà Thông Thái'.</p>
+<div class="flex gap-4">
+<button class="bg-[#D4AF37] text-[#510003] font-label-md px-6 py-2 rounded-full wax-seal hover:scale-105 active:scale-95 transition-all">
+                        Tham Gia Ngay
+                    </button>
+</div>
+</div>
+</section>
+<section class="mt-12 mb-8">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline-sm text-primary">Các Cuộn Giấy Mới</h3>
+<button class="text-secondary font-label-md flex items-center gap-1">Xem tất cả <span class="material-symbols-outlined text-sm">arrow_forward</span></button>
+</div>
+<div class="flex gap-gutter overflow-x-auto pb-4 -mx-container-padding-mobile px-container-padding-mobile snap-x">
+<div class="min-w-[200px] snap-start bg-[url('https://www.transparenttextures.com/patterns/parchment.png')] bg-surface-container-low border border-outline-variant p-4 rounded-lg flex flex-col items-center text-center shadow-sm">
+<div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center mb-3">
+<span class="material-symbols-outlined text-secondary">verified</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-primary mb-1">Mệnh Đề Quan Hệ</h4>
+<span class="font-label-md text-on-surface-variant text-[12px]">Dành cho Học viên Cấp 3</span>
+</div>
+<div class="min-w-[200px] snap-start bg-[url('https://www.transparenttextures.com/patterns/parchment.png')] bg-surface-container-low border border-outline-variant p-4 rounded-lg flex flex-col items-center text-center shadow-sm">
+<div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center mb-3">
+<span class="material-symbols-outlined text-secondary">explore</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-primary mb-1">Giới Từ Không Gian</h4>
+<span class="font-label-md text-on-surface-variant text-[12px]">Dành cho Học viên Cấp 1</span>
+</div>
+<div class="min-w-[200px] snap-start bg-[url('https://www.transparenttextures.com/patterns/parchment.png')] bg-surface-container-low border border-outline-variant p-4 rounded-lg flex flex-col items-center text-center shadow-sm">
+<div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center mb-3">
+<span class="material-symbols-outlined text-secondary">diamond</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-primary mb-1">Tiếng Anh Thương Mại</h4>
+<span class="font-label-md text-on-surface-variant text-[12px]">Dành cho Cao Nhân</span>
+</div>
+</div>
+</section>
+</main>
+<nav class="fixed bottom-0 w-full z-50 flex justify-around items-center px-gutter py-unit bg-[url('parchment-texture')] bg-surface dark:bg-surface-container shadow-[0_-4px_10px_rgba(60,47,47,0.1)] rounded-t-xl h-20">
+<div class="flex flex-col items-center justify-center text-on-surface-variant opacity-70 p-2 hover:scale-110 transition-transform active:brightness-125">
+<span class="material-symbols-outlined">auto_stories</span>
+<span class="font-label-md text-label-md">Thần chú</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant opacity-70 p-2 hover:scale-110 transition-transform active:brightness-125">
+<span class="material-symbols-outlined">map</span>
+<span class="font-label-md text-label-md">Bản đồ</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full p-2 shadow-[0_0_15px_rgba(212,175,55,0.4)] hover:scale-110 transition-transform active:brightness-125">
+<span class="material-symbols-outlined">menu_book</span>
+<span class="font-label-md text-label-md">Thư viện</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant opacity-70 p-2 hover:scale-110 transition-transform active:brightness-125">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-label-md text-label-md">Rương đồ</span>
+</div>
+</nav>
+</body></html>

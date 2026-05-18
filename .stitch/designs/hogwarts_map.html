@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+
+<html class="light" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Từ Điển Huyền Bí - Bản đồ Hogwarts</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400;1,700&amp;family=Hanken+Grotesk:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "background": "#fff8f7",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-container": "#96a1ce",
+                        "tertiary-container": "#2c375e",
+                        "on-primary-fixed-variant": "#871f1c",
+                        "on-secondary-container": "#416e4d",
+                        "on-tertiary-fixed": "#0d193f",
+                        "tertiary": "#162147",
+                        "secondary": "#3b6848",
+                        "on-tertiary": "#ffffff",
+                        "outline-variant": "#dfbfbc",
+                        "on-error": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "surface-container": "#ffe9e8",
+                        "primary-fixed": "#ffdad6",
+                        "surface-container-low": "#fff0f0",
+                        "inverse-on-surface": "#ffedec",
+                        "surface-dim": "#ead5d5",
+                        "surface": "#fff8f7",
+                        "secondary-fixed": "#bdefc6",
+                        "surface-tint": "#a83730",
+                        "tertiary-fixed-dim": "#bac5f4",
+                        "primary-container": "#741010",
+                        "on-surface-variant": "#57413f",
+                        "on-secondary-fixed-variant": "#234f32",
+                        "on-primary-container": "#ff7b6f",
+                        "outline": "#8b716e",
+                        "on-secondary-fixed": "#00210d",
+                        "inverse-surface": "#3a2d2d",
+                        "primary": "#510003",
+                        "inverse-primary": "#ffb4ab",
+                        "error": "#ba1a1a",
+                        "surface-bright": "#fff8f7",
+                        "on-surface": "#241919",
+                        "on-background": "#241919",
+                        "secondary-container": "#bdefc6",
+                        "on-tertiary-fixed-variant": "#3a456d",
+                        "surface-container-highest": "#f3dedd",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-fixed": "#410002",
+                        "on-error-container": "#93000a",
+                        "surface-container-high": "#f9e3e3",
+                        "on-primary": "#ffffff",
+                        "secondary-fixed-dim": "#a1d2ab",
+                        "surface-variant": "#f3dedd",
+                        "primary-fixed-dim": "#ffb4ab",
+                        "tertiary-fixed": "#dce1ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "container-padding-mobile": "24px",
+                        "container-padding-desktop": "48px",
+                        "unit": "8px",
+                        "element-gap": "12px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Hanken Grotesk"],
+                        "caption": ["Hanken Grotesk"],
+                        "display-lg": ["Libre Caslon Text"],
+                        "headline-sm": ["Libre Caslon Text"],
+                        "display-lg-mobile": ["Libre Caslon Text"],
+                        "headline-md": ["Libre Caslon Text"],
+                        "body-md": ["Hanken Grotesk"],
+                        "body-lg": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "caption": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                        "display-lg": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "display-lg-mobile": ["32px", {"lineHeight": "38px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .parchment-texture {
+            background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuBeb3EMz-bjE6W5EkfSaaHFXbyMtcZ_6jm7QX2mdn42aXBCFu7JWfJaRYa7W806zhGzrH4pTevYiDhVzd0v6yGFoqn5LkLhfOfyf0b2Mq9XI6IQoBdVcs26OQjSLhmnl8ASxMabEkNK9Pqvp-yvBECo3BhhbhPaqQ-rhHu5xLHpJrg_0Th0XYlY4lDHzUGDE4V9bB0WRwiJc-fGh9uKBQzoogjdMaa4mfMQP66LDvLUCtYlBbFGh9CfOObJZVLPHVFVLs7HiNqzgow), linear-gradient(to bottom right, #fff8f7, #f3dedd)
+        }
+        .deckle-edge {
+            mask-image: url("data:image/svg+xml;utf8,<svg viewBox=\"0 0 100 10\" preserveAspectRatio=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M0 0 L5 2 L10 0 L15 3 L20 1 L25 4 L30 1 L35 3 L40 0 L45 2 L50 0 L55 3 L60 1 L65 4 L70 1 L75 3 L80 0 L85 2 L90 0 L95 3 L100 0 V10 H0 Z\" fill=\"black\"/></svg>");
+            -webkit-mask-image: url("data:image/svg+xml;utf8,<svg viewBox=\"0 0 100 10\" preserveAspectRatio=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M0 0 L5 2 L10 0 L15 3 L20 1 L25 4 L30 1 L35 3 L40 0 L45 2 L50 0 L55 3 L60 1 L65 4 L70 1 L75 3 L80 0 L85 2 L90 0 L95 3 L100 0 V10 H0 Z\" fill=\"black\"/></svg>");
+            mask-position: bottom;
+            -webkit-mask-position: bottom;
+            mask-repeat: no-repeat;
+            -webkit-mask-repeat: no-repeat;
+            mask-size: 100% 8px;
+            -webkit-mask-size: 100% 8px
+        }
+        .gold-foil {
+            background: linear-gradient(135deg, #d4af37 0%, #f9e3e3 50%, #d4af37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent
+        }
+        .inner-depth {
+            box-shadow: inset 0 2px 4px rgba(60, 47, 47, 0.15)
+        }
+        .wax-seal {
+            box-shadow: 0 4px 0 #3a0001, 0 8px 15px rgba(0, 0, 0, 0.2)
+        }
+        .wax-seal:active {
+            transform: translatey(4px);
+            box-shadow: 0 0 0 #3a0001, 0 2px 5px rgba(0, 0, 0, 0.2)
+        }
+        .magical-glow {
+            box-shadow: 0 0 15px #d4af37
+        }
+        body {
+          min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md overflow-hidden">
+<!-- Top App Bar -->
+<header class="fixed top-0 z-50 w-full h-16 flex justify-between items-center px-container-padding-mobile md:px-container-padding-desktop bg-surface dark:bg-surface-container shadow-[0_4px_10px_rgba(60,47,47,0.1)] rounded-b-xl">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary cursor-pointer">menu</span>
+<h1 class="font-headline-md italic font-bold text-primary dark:text-on-primary-container">Từ Điển Huyền Bí</h1>
+</div>
+<div class="w-10 h-10 rounded-full border-2 border-primary overflow-hidden shadow-sm">
+<img alt="Chân dung Phù thủy" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBO1zC-qMxmWZjdV2OJ_ClGApriqcMKwSzR-yqoGd5hU6l-iYAlL3ZMi1h7-uWwILiGoxTthS-IYSR9_nHyGiFg2ouORT0WZW7d_X8kC6p-GVjziIMxAMF31KNy7d57_xqzTRzd4N9FbLPZxIsenGS9bVMmh9Xz3JhVEg0AsLK1x1rI0kEfJhlIVm4uQk3nP9jr24qFnoHo9aBSvmYQt3N-o6KT9qNlqzB4zvzI6dEOYBtI0rH66wLrYR_Xa2rsMWO3fdSGu0qFIy4"/>
+</div>
+</header>
+<!-- Main Map Canvas -->
+<main class="relative w-full h-screen overflow-hidden parchment-texture">
+<!-- Interactive Map Image -->
+<div class="absolute inset-0 z-0">
+<img alt="Bản đồ chi tiết lâu đài Hogwarts trên giấy da cũ" class="w-full h-full object-cover opacity-60 mix-blend-multiply" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6UPRbagPWCXmpVn8rTbnKVk2TmfU6ndzCXQdhged7nmVnujT-z6lLZ4JX2t4EF5zpafj3ER3JM7mkCXswEpwWoW0Ady3AHHnP34erqtcun-EX2uzQNBN3CqIaWOlEi14VEeA4OwV_57cgzQq4AQ-iqM3E60IzGvLuuixSlP_ezTq2JZfYmcOT11p9dbmkmB_MieCVTsWvZKiaJpyDpRwCv7lSYPQ5qTRIDyP-o-tofVM3tNORtHqI-K3BzyVH0G9yA1TYm_XZJeg"/>
+</div>
+<!-- Quest Markers (Asymmetric Layout) -->
+<div class="absolute inset-0 z-10 pointer-events-none">
+<!-- Great Hall -->
+<button class="absolute top-[35%] left-[45%] pointer-events-auto flex flex-col items-center group">
+<div class="w-12 h-12 rounded-full bg-primary wax-seal flex items-center justify-center magical-glow group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">restaurant</span>
+</div>
+<span class="mt-2 font-label-md text-label-md bg-white/80 px-3 py-1 rounded-full text-primary border border-outline-variant shadow-sm">Đại Sảnh Đường</span>
+</button>
+<!-- Library -->
+<button class="absolute top-[20%] left-[25%] pointer-events-auto flex flex-col items-center group">
+<div class="w-12 h-12 rounded-full bg-primary wax-seal flex items-center justify-center group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">menu_book</span>
+</div>
+<span class="mt-2 font-label-md text-label-md bg-white/80 px-3 py-1 rounded-full text-primary border border-outline-variant shadow-sm">Thư viện</span>
+</button>
+<!-- Forbidden Forest -->
+<button class="absolute top-[65%] left-[70%] pointer-events-auto flex flex-col items-center group">
+<div class="w-12 h-12 rounded-full bg-primary wax-seal flex items-center justify-center group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">park</span>
+</div>
+<span class="mt-2 font-label-md text-label-md bg-white/80 px-3 py-1 rounded-full text-primary border border-outline-variant shadow-sm">Rừng Cấm</span>
+</button>
+</div>
+<!-- Floating UI Elements -->
+<div class="absolute top-20 right-6 z-20 flex flex-col gap-4">
+<div class="p-4 bg-white/90 backdrop-blur-sm rounded-xl border border-outline-variant shadow-lg flex items-center gap-3">
+<span class="material-symbols-outlined text-[#d4af37]" style="font-variation-settings: 'FILL' 1;">stars</span>
+<div>
+<p class="font-caption text-caption text-on-surface-variant uppercase tracking-wider">CẤP ĐỘ HỌC GIẢ</p>
+<p class="font-headline-sm text-headline-sm text-primary">Bậc Thầy Cổ Ngữ</p>
+</div>
+</div>
+</div>
+<!-- Bottom Current Quest Card -->
+<div class="absolute bottom-24 left-0 w-full px-container-padding-mobile md:px-[20%] z-30">
+<div class="bg-surface-container-low border border-outline-variant/50 rounded-xl p-6 shadow-xl deckle-edge relative overflow-hidden">
+<!-- Golden Particle Overlay Effect -->
+<div class="absolute top-0 right-0 p-2">
+<span class="material-symbols-outlined text-[#d4af37] opacity-40 text-4xl animate-pulse">auto_awesome</span>
+</div>
+<div class="flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<div>
+<span class="font-label-md text-label-md text-secondary-fixed-dim bg-secondary/10 px-2 py-1 rounded uppercase">Nhiệm vụ hiện tại</span>
+<h2 class="mt-2 font-headline-md-mobile text-headline-md-mobile md:font-headline-md md:text-headline-md text-primary">Học Bùa Bay Lơ Lửng</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Làm chủ cách phát âm và cú pháp của các câu thần chú trên không cơ bản.</p>
+</div>
+<button class="w-14 h-14 bg-primary rounded-full wax-seal flex items-center justify-center hover:scale-105 transition-transform active:scale-95">
+<span class="material-symbols-outlined text-white text-3xl">play_arrow</span>
+</button>
+</div>
+<!-- Hourglass Progress Bar -->
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary">hourglass_top</span>
+<div class="flex-1 h-3 bg-surface-variant rounded-full overflow-hidden inner-depth">
+<div class="h-full w-2/3 bg-gradient-to-r from-primary to-[#d4af37] shadow-[0_0_8px_#d4af37] relative">
+<div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/shattered.png')] opacity-30"></div>
+</div>
+</div>
+<span class="font-label-md text-label-md text-primary">65%</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-4 pt-2 bg-surface-container-low dark:bg-surface-container-lowest shadow-[0_-4px_12px_rgba(60,47,47,0.08)] rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined">wand_stars</span>
+<span class="font-label-md text-label-md">Thần chú</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary text-on-primary rounded-full w-12 h-12 shadow-[inset_0_2px_4px_rgba(0,0,0,0.3)] ring-2 ring-primary-fixed active:scale-90 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined">map</span>
+<span class="sr-only">Bản đồ</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined">menu_book</span>
+<span class="font-label-md text-label-md">Thư viện</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-label-md text-label-md">Rương đồ</span>
+</a>
+</nav>
+</body></html>
